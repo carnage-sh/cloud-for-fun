@@ -112,10 +112,24 @@ resource "aws_security_group" "kubernetes" {
     cidr_blocks = ["0.0.0.0/0"]
   }
 
+#  ingress {
+#    from_port   = 0
+#    to_port     = 0
+#    protocol    = "-1"
+#    cidr_blocks = ["0.0.0.0/0"]
+#  }
+
   ingress {
-    from_port   = 22
-    to_port     = 22
+    from_port   = 179
+    to_port     = 179
     protocol    = "tcp"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+
+  ingress {
+    from_port   = 179
+    to_port     = 179
+    protocol    = "udp"
     cidr_blocks = ["0.0.0.0/0"]
   }
 
@@ -127,8 +141,15 @@ resource "aws_security_group" "kubernetes" {
   }
 
   ingress {
-    from_port   = 2379
-    to_port     = 2380
+    from_port   = 4789
+    to_port     = 4789
+    protocol    = "tcp"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+
+  ingress {
+    from_port   = 5473
+    to_port     = 5473
     protocol    = "tcp"
     cidr_blocks = ["0.0.0.0/0"]
   }
@@ -142,7 +163,7 @@ resource "aws_security_group" "kubernetes" {
 
   ingress {
     from_port   = 10250
-    to_port     = 10252
+    to_port     = 10260
     protocol    = "tcp"
     cidr_blocks = ["0.0.0.0/0"]
   }
@@ -153,7 +174,5 @@ resource "aws_security_group" "kubernetes" {
     protocol    = "tcp"
     cidr_blocks = ["0.0.0.0/0"]
   }
-
-
 }
 

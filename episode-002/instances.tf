@@ -1,3 +1,7 @@
+data "template_file" "cloudinit" {
+  template = file("cloudinit.sh")
+}
+
 resource "aws_instance" "bastion" {
   count = 1
 
@@ -15,18 +19,34 @@ resource "aws_instance" "bastion" {
 }
 
 resource "aws_instance" "controlplane" {
-  count = 3
+  count = 1
 
-  ami                         = data.aws_ami.fedora.id
+  ami                         = data.aws_ami.debian.id
   instance_type               = "m5.large"
   vpc_security_group_ids      = [ aws_security_group.ssh_inbound.id, aws_security_group.kubernetes.id ]
   iam_instance_profile        = aws_iam_instance_profile.ec2_ssh_profile.id
   subnet_id                   = element(aws_subnet.private-subnet.*.id, count.index)
   associate_public_ip_address = "false"
   key_name                    = aws_key_pair.sshkey.key_name
-
+  user_data                   = data.template_file.cloudinit.rendered
   tags = {
     Name = "control-plane-${count.index+1}"
+  }
+}
+
+resource "aws_instance" "worker" {
+  count = 1
+
+  ami                         = data.aws_ami.debian.id
+  instance_type               = "m5.large"
+  vpc_security_group_ids      = [ aws_security_group.ssh_inbound.id, aws_security_group.kubernetes.id ]
+  iam_instance_profile        = aws_iam_instance_profile.ec2_ssh_profile.id
+  subnet_id                   = element(aws_subnet.private-subnet.*.id, count.index)
+  associate_public_ip_address = "false"
+  key_name                    = aws_key_pair.sshkey.key_name
+  user_data                   = data.template_file.cloudinit.rendered
+  tags = {
+    Name = "worker-${count.index+1}"
   }
 }
 
