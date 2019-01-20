@@ -1,9 +1,10 @@
 const express = require('express')
 const version = require('./version.json')
+
 const Prometheus = require('prom-client')
 const metricsInterval = Prometheus.collectDefaultMetrics()
-const simpleapiCalls = new Prometheus.Counter({
-  name: 'simpleapi_requests',
+const simpleapiRequests = new Prometheus.Counter({
+  name: 'simpleapi_requests_total',
   help: 'number of requests',
   labelNames: ['route', 'method']
 })
@@ -11,7 +12,7 @@ const simpleapiCalls = new Prometheus.Counter({
 const app = express()
 
 app.use((req, res, next) => {
-  simpleapiCalls.inc({route: req.path, method: req.method})
+  simpleapiRequests.inc({route: req.path, method: req.method})
   next()
 })
 
