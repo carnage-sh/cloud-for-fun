@@ -2,8 +2,8 @@ global:
   scrape_interval: 15s
 
 scrape_configs:
-  - job_name: simpleapi
+  - job_name: gaming
     static_configs:
       - targets:
-          - "simpleapi:8080"
+          - "gaming:8080"
 
