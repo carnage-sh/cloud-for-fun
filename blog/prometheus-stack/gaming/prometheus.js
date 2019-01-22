@@ -1,5 +1,7 @@
 const Prometheus = require('prom-client')
 const metricsInterval = Prometheus.collectDefaultMetrics()
+const onFinished = require('on-finished')
+
 const gamingRequests = new Prometheus.Counter({
   name: 'gaming_requests_total',
   help: 'number of requests',
@@ -10,12 +12,25 @@ const gamingScores = new Prometheus.Gauge({
   help: 'User scores',
   labelNames: ['user']
 })
+const gamingRequestsDistribution = new Prometheus.Histogram({
+  name: 'gaming_requests_msecs',
+  help: 'distribution of request response time (millisecs)',
+  labelNames: ['route', 'method'],
+  buckets: [1, 5, 20, 50, 200, 500, 1000]
+})
 
 const updateScore = (user, val) => {
   gamingScores.set({user: user}, val, Date.now())
 }
 
-const startMiddleware = (req, res, next) => {
+const middleware = (req, res, next) => {
+  req.startTime = Date.now()
+
+  onFinished(req, (err, req) => {
+    const time = Date.now() - req.startTime
+    gamingRequestsDistribution
+      .observe({route: req.path, method: req.method}, time)
+  })
   gamingRequests.inc({route: req.path, method: req.method}, 1, Date.now())
   next()
 }
@@ -25,9 +40,5 @@ const metrics = (req, res) => {
   res.end(Prometheus.register.metrics())
 }
 
-const endMiddleware = (req, res, next) => {
-  next()
-}
-
-module.exports = { startMiddleware, endMiddleware, metrics, updateScore }
+module.exports = { middleware, metrics, updateScore }
 

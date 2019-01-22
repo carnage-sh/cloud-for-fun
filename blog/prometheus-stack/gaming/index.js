@@ -16,7 +16,7 @@ const app = module.exports = express()
 
 app.use(bodyParser.json())
 
-app.use(prometheus.startMiddleware)
+app.use(prometheus.middleware)
 
 app.get('/version', (req, res) => {
     res.setHeader('content-type', 'application/javascript')
@@ -55,8 +55,7 @@ app.post('/score/:userId', (req, res) => {
   }
   client.set(
    `score:${req.params.userId}`,
-    JSON.stringify(req.body),
-    redis.print)
+    JSON.stringify(req.body))
   prometheus.updateScore(req.params.userId, req.body.score)
   res.setHeader('content-type', 'application/javascript')
   return res.send(req.body)
