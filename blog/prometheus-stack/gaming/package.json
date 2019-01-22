@@ -1,0 +1,19 @@
+{
+  "name": "gaming",
+  "description": "A simple API to demonstrate prometheus",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js",
+    "test": "echo \"No test for now\""
+  },
+  "author": "Gregory Guillou",
+  "license": "SEE LICENSE IN LICENSE",
+  "dependencies": {
+    "body-parser": "^1.18.3",
+    "express": "^4.16.4",
+    "on-finished": "^2.3.0",
+    "payload-validator": "^1.0.4",
+    "prom-client": "^11.2.1",
+    "redis": "^2.8.0"
+  }
+}
