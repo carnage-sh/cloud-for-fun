@@ -12,7 +12,7 @@ The `blog` directory contains projects that supports blog entries from
 [gregoryguillou.github.io](https://gregoryguillou.github.io). This is a short
 summary:
 
-- [prometheus-stack](https://github.com/gregoryguillou/cloud-for-fun/blog/prometheus-stack)
+- [prometheus-stack](https://github.com/gregoryguillou/cloud-for-fun/tree/master/blog/prometheus-stack)
   provides an example of an API developed with NodeJS that embeds Prometheus
   custom metrics. It also includes Prometheus and Grafana as part of a Docker
   Compose definition file.
