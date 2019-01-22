@@ -30,5 +30,6 @@ services:
       GF_SERVER_ROOT_URL: http://localhost:3000
       GF_SECURITY_ADMIN_PASSWORD: secret
     volumes:
-      - ./grafana:/var/lib/grafana
+      - ./dashboards:/var/lib/grafana/dashboards
       - ./configuration/datasource.yaml:/etc/grafana/provisioning/datasources/datasource.yaml
+      - ./configuration/dashboard.yaml:/etc/grafana/provisioning/dashboards/default.yaml
