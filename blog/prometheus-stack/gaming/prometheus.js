@@ -18,6 +18,14 @@ const gamingRequestsDistribution = new Prometheus.Histogram({
   labelNames: ['route', 'method'],
   buckets: [1, 5, 20, 50, 200, 500, 1000]
 })
+const gamingRequestsSummary = new Prometheus.Summary({
+  name: 'gaming_requests_msecs_summary',
+  help: 'summary of request response time (millisecs)',
+  labelNames: ['route', 'method'],
+  percentiles: [0.9, 0.95, 0.99, 0.999],
+  maxAgeSeconds: 600,
+  ageBuckets: 10
+})
 
 const updateScore = (user, val) => {
   gamingScores.set({user: user}, val, Date.now())
@@ -30,6 +38,10 @@ const middleware = (req, res, next) => {
     const time = Date.now() - req.startTime
     gamingRequestsDistribution
       .observe({route: req.path, method: req.method}, time)
+    if (req.path === "/version" && req.method === "GET") {
+      gamingRequestsSummary
+        .observe({route: req.path, method: req.method}, time)
+    }
   })
   gamingRequests.inc({route: req.path, method: req.method}, 1, Date.now())
   next()
