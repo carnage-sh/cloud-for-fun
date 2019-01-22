@@ -31,3 +31,4 @@ services:
       GF_SECURITY_ADMIN_PASSWORD: secret
     volumes:
       - ./grafana:/var/lib/grafana
+      - ./configuration/datasource.yaml:/etc/grafana/provisioning/datasources/datasource.yaml
