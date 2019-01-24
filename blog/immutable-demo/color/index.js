@@ -11,12 +11,12 @@ const app = module.exports = express()
 app.use(morgan('combined'))
 
 app.get('/version', (req, res) => {
-    res.setHeader('content-type', 'application/javascript')
+    res.setHeader('content-type', 'application/json')
     res.send(JSON.stringify({version: version.version}))
 })
 
-app.get('/color', (req, res) => {
-    res.setHeader('content-type', 'application/javascript')
+app.get('/', (req, res) => {
+    res.setHeader('content-type', 'application/json')
     res.send(JSON.stringify({color: 'red'}))
 })
 
