@@ -21,3 +21,7 @@ services:
     image: "color:1.0.0"
     ports:
       - 8001:8000
+    environment:
+      CONSUL_HOSTNAME: "consul-server"
+    depends_on:
+      - "consul-server"
