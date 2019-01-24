@@ -9,5 +9,5 @@ RUN npm ci
 
 COPY . /app/
 
-CMD ["npm", "start"]
+ENTRYPOINT ["node", "./index.js"]
 

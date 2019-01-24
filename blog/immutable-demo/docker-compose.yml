@@ -28,11 +28,27 @@ services:
     depends_on:
       - "consul-server"
 
-  color:
+  red:
     image: "color:1.0.0"
     ports:
       - 8001:8000
     environment:
       CONSUL_HOSTNAME: "consul-server"
+    stop_grace_period: 6s
     depends_on:
       - "consul-server"
+      - "traefik"
+
+  black:
+    image: "color:1.0.0"
+    ports:
+      - 8002:8000
+    command:
+      - "--color=black"
+    environment:
+      CONSUL_HOSTNAME: "consul-server"
+    stop_grace_period: 6s
+    depends_on:
+      - "consul-server"
+      - "traefik"
+

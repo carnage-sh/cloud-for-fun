@@ -1,10 +1,11 @@
 const express = require('express')
 const process = require('process')
 const morgan  = require('morgan')
-const terminus = require('./terminus')
 const version = require('./version.json')
 const http = require('http')
 const consul = require('./consul-client')
+const argv = require('minimist')(process.argv.slice(2));
+const color = argv["color"] || "red"
 
 const app = module.exports = express()
 
@@ -17,15 +18,14 @@ app.get('/version', (req, res) => {
 
 app.get('/', (req, res) => {
     res.setHeader('content-type', 'application/json')
-    res.send(JSON.stringify({color: 'red'}))
+    res.send(JSON.stringify({color}))
 })
 
 const server = http.createServer(app);
 
-terminus(server)
+consul(server, "color")
 
 server.listen(8000, '0.0.0.0' , () => {
     console.log(`Gaming App started on 0.0.0.0:8000`)
-    consul.updateService()
 })
 
