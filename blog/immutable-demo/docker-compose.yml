@@ -1,0 +1,23 @@
+version: '3'
+
+services:
+  consul-server:
+    image: "consul:1.4.0"
+    command:
+      - agent
+      - "-client"
+      - "0.0.0.0"
+      - "-server"
+      - "-bind"
+      - "0.0.0.0"
+      - "-bootstrap-expect"
+      - "1"
+    ports:
+      - 8500:8500
+    environment:
+      CONSUL_LOCAL_CONFIG: '{"datacenter":"paris","server":true,"enable_debug":true}'
+
+  color:
+    image: "color:1.0.0"
+    ports:
+      - 8001:8000
