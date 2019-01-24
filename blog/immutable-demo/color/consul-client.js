@@ -8,11 +8,25 @@ const consul = process.env.CONSUL_HOSTNAME || "localhost"
 function updateService() {
   const date = new Date();
   const register = {
-    ID: `${os.hostname()}`,
+    ID: `color-${os.hostname()}`,
     Name: 'color',
-    Tags: [ 'api' ],
-    Address: `${ip.address()}`,
-    Port: 8000
+    Notes: "The Color API",
+    Tags: [
+      'traefik.enable=true',
+      'traefik.frontend.entryPoints=http',
+      'traefik.frontend.rule=Host:localhost'
+    ],
+    Address: ip.address(),
+    Port: 8000,
+    DeregisterCriticalServiceAfter: "30m",
+    check: {
+      id: "color-api",
+      Name: "color-api",
+      Notes : "HTTP API on port 8000 with route /healthcheck",
+      http: `http://${ip.address()}:8000/healthcheck`,
+      interval: "10s",
+      timeout: "2s"
+    }
   }
 
   request({

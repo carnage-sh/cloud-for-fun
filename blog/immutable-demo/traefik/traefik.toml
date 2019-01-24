@@ -1,0 +1,14 @@
+logLevel = "INFO"
+
+[entryPoints]
+  [entryPoints.http]
+  address = ":80"
+
+[web]
+address = ":8080"
+
+[consulCatalog]
+endpoint = "consul-server:8500"
+exposedByDefault = false
+prefix = "traefik"
+

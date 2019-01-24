@@ -12,10 +12,7 @@ function onShutdown () {
 }
 
 function healthCheck () {
-  return Promise.resolve(
-    // optionally include a resolve value to be included as
-    // info in the healthcheck response
-  )
+  return Promise.resolve()
 }
 
 const options = {

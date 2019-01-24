@@ -12,10 +12,21 @@ services:
       - "0.0.0.0"
       - "-bootstrap-expect"
       - "1"
+      - "-ui"
     ports:
       - 8500:8500
     environment:
       CONSUL_LOCAL_CONFIG: '{"datacenter":"paris","server":true,"enable_debug":true}'
+
+  traefik:
+    image: "traefik:1.7.7-alpine"
+    ports:
+      - 9000:80
+      - 9001:8080
+    volumes:
+      - "./traefik/traefik.toml:/etc/traefik/traefik.toml"
+    depends_on:
+      - "consul-server"
 
   color:
     image: "color:1.0.0"
