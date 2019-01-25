@@ -16,3 +16,7 @@ summary:
   provides an example of an API developed with NodeJS that embeds Prometheus
   custom metrics. It also includes Prometheus and Grafana as part of a Docker
   Compose definition file.
+- [red-black](https://github.com/gregoryguillou/cloud-for-fun/tree/master/blog/red-black)
+  provides an example of an API that can be started/stopped, registers in
+  consul and is accessible via Traefik. It shows blue/green updates in
+  action.
