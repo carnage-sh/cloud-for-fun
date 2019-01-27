@@ -23,10 +23,11 @@
       "dashLength": 10,
       "dashes": false,
       "datasource": "Elastic",
+      "description": "Content of the logs from the logme container",
       "fill": 1,
       "gridPos": {
-        "h": 8,
-        "w": 22,
+        "h": 5,
+        "w": 16,
         "x": 0,
         "y": 0
       },
@@ -60,21 +61,8 @@
           "bucketAggs": [
             {
               "fake": true,
-              "id": "4",
-              "query": "*",
-              "settings": {
-                "filters": [
-                  {
-                    "label": "docker:logme",
-                    "query": "logme"
-                  }
-                ]
-              },
-              "type": "filters"
-            },
-            {
-              "field": "@timestamp",
-              "id": "2",
+              "field": "logtime",
+              "id": "5",
               "settings": {
                 "interval": "10s",
                 "min_doc_count": 0,
@@ -91,29 +79,15 @@
               "type": "count"
             }
           ],
-          "query": "log:\\[INFO\\]",
+          "query": "loglevel:INFO",
           "refId": "A",
-          "timeField": "@timestamp"
+          "timeField": "logtime"
         },
         {
           "alias": "WARN",
           "bucketAggs": [
             {
-              "fake": true,
-              "id": "3",
-              "query": "*",
-              "settings": {
-                "filters": [
-                  {
-                    "label": "docker:logme",
-                    "query": "logme"
-                  }
-                ]
-              },
-              "type": "filters"
-            },
-            {
-              "field": "@timestamp",
+              "field": "logtime",
               "id": "2",
               "settings": {
                 "interval": "10s",
@@ -130,16 +104,16 @@
               "type": "count"
             }
           ],
-          "query": "log:\\[WARN\\]",
+          "query": "loglevel:WARN",
           "refId": "B",
-          "timeField": "@timestamp"
+          "timeField": "logtime"
         }
       ],
       "thresholds": [],
       "timeFrom": null,
       "timeRegions": [],
       "timeShift": null,
-      "title": "Log Activity",
+      "title": "Log Activity (logme)",
       "tooltip": {
         "shared": true,
         "sort": 0,
@@ -177,31 +151,137 @@
       }
     },
     {
+      "cacheTimeout": null,
+      "colorBackground": true,
+      "colorPrefix": false,
+      "colorValue": false,
+      "colors": [
+        "#d44a3a",
+        "rgba(237, 129, 40, 0.89)",
+        "#629e51"
+      ],
+      "datasource": "Elastic",
+      "format": "none",
+      "gauge": {
+        "maxValue": 2,
+        "minValue": 0,
+        "show": false,
+        "thresholdLabels": true,
+        "thresholdMarkers": true
+      },
+      "gridPos": {
+        "h": 5,
+        "w": 8,
+        "x": 16,
+        "y": 0
+      },
+      "hideTimeOverride": true,
+      "id": 6,
+      "interval": "10s",
+      "links": [],
+      "mappingType": 1,
+      "mappingTypes": [
+        {
+          "name": "value to text",
+          "value": 1
+        },
+        {
+          "name": "range to text",
+          "value": 2
+        }
+      ],
+      "maxDataPoints": 100,
+      "nullPointMode": "connected",
+      "nullText": null,
+      "postfix": "",
+      "postfixFontSize": "50%",
+      "prefix": "",
+      "prefixFontSize": "50%",
+      "rangeMaps": [
+        {
+          "from": "null",
+          "text": "N/A",
+          "to": "null"
+        }
+      ],
+      "sparkline": {
+        "fillColor": "rgba(31, 118, 189, 0.18)",
+        "full": false,
+        "lineColor": "rgb(31, 120, 193)",
+        "show": true
+      },
+      "tableColumn": "",
+      "targets": [
+        {
+          "alias": "logme",
+          "bucketAggs": [
+            {
+              "field": "logtime",
+              "id": "2",
+              "settings": {
+                "interval": "1h",
+                "min_doc_count": 0,
+                "trimEdges": 0
+              },
+              "type": "date_histogram"
+            }
+          ],
+          "metrics": [
+            {
+              "field": "shortid.keyword",
+              "id": "1",
+              "meta": {},
+              "settings": {},
+              "type": "cardinality"
+            }
+          ],
+          "query": "container_name:logme",
+          "refId": "A",
+          "timeField": "logtime"
+        }
+      ],
+      "thresholds": "0.1,0.1",
+      "timeFrom": "20s",
+      "timeShift": null,
+      "title": "# Containers",
+      "type": "singlestat",
+      "valueFontSize": "200%",
+      "valueMaps": [
+        {
+          "op": "=",
+          "text": "0",
+          "value": "null"
+        }
+      ],
+      "valueName": "total"
+    },
+    {
       "columns": [
         {
-          "text": "container_name",
-          "value": "container_name"
+          "text": "logtime",
+          "value": "logtime"
         },
         {
-          "text": "@timestamp",
-          "value": "@timestamp"
+          "text": "shortid",
+          "value": "shortid"
         },
         {
-          "text": "container_id",
-          "value": "container_id"
+          "text": "loglevel",
+          "value": "loglevel"
         },
         {
-          "text": "log",
-          "value": "log"
+          "text": "message",
+          "value": "message"
         }
       ],
       "datasource": "Elastic",
+      "description": "List of messages when loglevel=WARB",
       "fontSize": "100%",
       "gridPos": {
-        "h": 9,
-        "w": 22,
+        "h": 7,
+        "w": 24,
         "x": 0,
-        "y": 8
+        "y": 5
       },
       "id": 4,
       "links": [],
@@ -209,7 +289,7 @@
       "scroll": true,
       "showHeader": true,
       "sort": {
-        "col": 1,
+        "col": 0,
         "desc": true
       },
       "styles": [
@@ -217,32 +297,8 @@
           "alias": "Event Time",
           "dateFormat": "YYYY-MM-DD HH:mm:ss",
           "link": false,
-          "pattern": "@timestamp",
+          "pattern": "logtime",
           "type": "date"
-        },
-        {
-          "alias": "Container",
-          "colorMode": null,
-          "colors": [
-            "rgba(245, 54, 54, 0.9)",
-            "rgba(237, 129, 40, 0.89)",
-            "rgba(50, 172, 45, 0.97)"
-          ],
-          "dateFormat": "YYYY-MM-DD HH:mm:ss",
-          "decimals": 2,
-          "link": false,
-          "mappingType": 1,
-          "pattern": "container_name",
-          "sanitize": false,
-          "thresholds": [],
-          "type": "string",
-          "unit": "short",
-          "valueMaps": [
-            {
-              "text": "logme",
-              "value": "/logme"
-            }
-          ]
         },
         {
           "alias": "Id",
@@ -255,11 +311,10 @@
           "dateFormat": "YYYY-MM-DD HH:mm:ss",
           "decimals": 2,
           "mappingType": 1,
-          "pattern": "container_id",
+          "pattern": "shortid",
           "thresholds": [],
           "type": "string",
-          "unit": "short",
-          "valueMaps": []
+          "unit": "short"
         },
         {
           "alias": "",
@@ -292,12 +347,12 @@
               "type": "raw_document"
             }
           ],
-          "query": "(log:\\[WARN\\])",
+          "query": "loglevel:WARN",
           "refId": "A",
-          "timeField": "@timestamp"
+          "timeField": "logtime"
         }
       ],
-      "title": "Logging [WARN]",
+      "title": "Message (WARN)",
       "transform": "json",
       "type": "table"
     }
@@ -310,7 +365,7 @@
     "list": []
   },
   "time": {
-    "from": "now-15m",
+    "from": "now-5m",
     "to": "now"
   },
   "timepicker": {
