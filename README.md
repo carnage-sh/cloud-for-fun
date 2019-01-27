@@ -16,6 +16,12 @@ summary:
   provides an example of an API developed with NodeJS that embeds Prometheus
   custom metrics. It also includes Prometheus and Grafana as part of a Docker
   Compose definition file.
+- [elasticsearch-stack](https://github.com/gregoryguillou/cloud-for-fun/tree/master/blog/elasticsearch-stack)
+  provides an example of log management with Fluentd, Elasticsearch
+  and Grafana. It nicely completes `prometheus-stack` for logs. It provides a
+  custom dashboard that displays a graph, a gauge and a table with messages
+  from Elasticsearch. It also shows how to parse/enrich data as part of the
+  fluentd capture pipeline.
 - [red-black](https://github.com/gregoryguillou/cloud-for-fun/tree/master/blog/red-black)
   provides an example of an API that can be started/stopped, registers in
   consul and is accessible via Traefik. It shows blue/green updates in
