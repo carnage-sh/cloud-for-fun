@@ -8,6 +8,6 @@ datasources:
     url: http://elasticsearch:9200
     jsonData:
       interval: Daily
-      timeField: "@timestamp"
+      timeField: "logtime"
       esVersion: 60
 
