@@ -1,0 +1,11 @@
+version: '3'
+
+services:
+  logme:
+    image: logme:0.1.0
+    container_name: logme
+    logging:
+      driver: fluentd
+      options:
+          fluentd-address: "localhost:24224"
+          tag: docker.logme
