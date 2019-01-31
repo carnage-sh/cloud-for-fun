@@ -1,0 +1,47 @@
+version: '3'
+
+services:
+  consul-server-1: &consul-server
+    image: consul:1.4.0
+    networks:
+      - internal-network
+    container_name: consul-server-1
+    command: "agent -server -bootstrap-expect 3 -ui -client 0.0.0.0 -datacenter=paris"
+
+  consul-server-2:
+    <<: *consul-server
+    container_name: consul-server-2
+    command: "agent -server -retry-join consul-server-1 -client 0.0.0.0 -datacenter=paris"
+
+  consul-server-3:
+    <<: *consul-server
+    container_name: consul-server-3
+    command: "agent -server -retry-join consul-server-1 -client 0.0.0.0 -datacenter=paris"
+
+  vault:
+    image: vault:1.0.2
+    ports:
+      - 8200:8200
+    networks:
+      - internal-network
+    environment:
+      VAULT_ADDR: http://127.0.0.1:8200
+      VAULT_LOCAL_CONFIG: '{"backend":{"consul":{"address":"http://consul-server-1:8500","path":"vault/"}},"listener":{"tcp":{"address":"0.0.0.0:8200","tls_disable":1}},"ui":true, "disable_mlock":true}'
+    command: server
+    depends_on:
+      - consul-server-1
+      - consul-server-2
+      - consul-server-3
+      - mysql
+
+  mysql:
+    image: mysql/mysql-server:5.7
+    environment:
+      MYSQL_PASSWORD: changeme
+      MYSQL_USER: mysql
+    networks:
+      - internal-network
+
+networks:
+  internal-network:
+
