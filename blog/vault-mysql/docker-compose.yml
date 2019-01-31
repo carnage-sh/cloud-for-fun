@@ -36,9 +36,6 @@ services:
 
   mysql:
     image: mysql/mysql-server:5.7
-    environment:
-      MYSQL_PASSWORD: changeme
-      MYSQL_USER: mysql
     networks:
       - internal-network
 
