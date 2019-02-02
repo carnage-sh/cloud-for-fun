@@ -1,0 +1,33 @@
+version: '3'
+
+services:
+  color:
+    image: color:1.1.0
+    ports:
+      - 8000:8000
+    environment:
+      CONSUL_HOSTNAME: consul-server
+
+  prometheus:
+    image: prom/prometheus:v2.6.1
+    ports:
+      - 9090:9090
+    volumes:
+      - ./prometheus.yml:/etc/prometheus/prometheus.yml
+
+  consul-server:
+    image: "consul:1.4.2"
+    command:
+      - agent
+      - "-client"
+      - "0.0.0.0"
+      - "-server"
+      - "-bind"
+      - "0.0.0.0"
+      - "-bootstrap-expect"
+      - "1"
+      - "-ui"
+    ports:
+      - 8500:8500
+    environment:
+      CONSUL_LOCAL_CONFIG: '{"datacenter":"paris","server":true,"enable_debug":true}'
