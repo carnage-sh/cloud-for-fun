@@ -9,30 +9,32 @@ contact me on and open issues if you need...
 ## Blogs
 
 The `blog` directory contains projects that supports blog entries from
-[gregoryguillou.github.io](https://gregoryguillou.github.io). This is a short
-summary:
+[gregoryguillou.github.io](https://gregoryguillou.github.io). Below is the list
+of them with some links to the blog posts:
 
 - [elasticsearch-stack](https://github.com/gregoryguillou/cloud-for-fun/tree/master/blog/elasticsearch-stack)
-  provides an example of log management with Fluentd, Elasticsearch
-  and Grafana. It nicely completes `prometheus-stack` for logs. It provides a
-  custom dashboard that displays a graph, a gauge and a table with messages
-  from Elasticsearch. It also shows how to parse/enrich data as part of the
-  fluentd capture pipeline.
+  provides an example of managing docker logs with Fluentd, Elasticsearch and
+  Grafana. It nicely completes `prometheus-stack`, see
+  [Managing logs with Fluentd, ElasticSearch and Grafana](https://gregoryguillou.github.io/2019-01/docker-fluentd-elastic/)
 - [prometheus-stack](https://github.com/gregoryguillou/cloud-for-fun/tree/master/blog/prometheus-stack)
   provides an example of an API developed with NodeJS that embeds Prometheus
-  custom metrics. It also includes Prometheus and Grafana as part of a Docker
-  Compose definition file.
+  custom metrics. It also includes Prometheus and Grafana. see [Prometheus in Action (1/3)](https://gregoryguillou.github.io/2019-01/prometheus-configuration/),
+  [(2/3)](https://gregoryguillou.github.io/2019-01/prometheus-application/) and
+  [(3/3)](https://gregoryguillou.github.io/2019-01/prometheus-grafana/) for some details.
 - [red-black](https://github.com/gregoryguillou/cloud-for-fun/tree/master/blog/red-black)
   provides an example of an API that can be started/stopped, registers in
-  consul and is accessible via Traefik. It shows blue/green updates in
-  action.
+  consul and is accessible via Traefik. It shows blue/green updates as explained in
+  [Red/Black Updates with Consul and Traefik](https://gregoryguillou.github.io/2019-01/red-black-update/)
 - [vault-101](https://github.com/gregoryguillou/cloud-for-fun/tree/master/blog/vault-101)
   is a simple Vault built on top of a Consul cluster. It can easily be used
-  to explore some feature from Vault.
+  to explore some feature from Vault, refer
+  [Generate TLS Certificates with Vault](https://gregoryguillou.github.io/2019-01/vault-101/)
 - [vault-audit](https://github.com/gregoryguillou/cloud-for-fun/tree/master/blog/vault-audit)
   is an example of Vault Audit trails being sent into an Elasticsearch with
   fluentd. It provides a whole stack and addresses some of the concerns of
-  such an infrastructure.
+  such an infrastructure, see
+  [Managing Vault Audit Trails in Elasticsearch](https://gregoryguillou.github.io/2019-02/vault-audit/)
 - [vault-mysql](https://github.com/gregoryguillou/cloud-for-fun/tree/master/blog/vault-mysql)
   explains how to use Vault with a database to provide always changing
-  passwords and request those on-demand or on application startup
+  passwords and request those on-demand or on application startup, see
+  [Rotate database passwords with Vault](https://gregoryguillou.github.io/2019-01/vault-mysql/)
