@@ -1,0 +1,82 @@
+version: '3'
+
+services:
+  consul-server-1: &consul-server
+    image: consul:1.4.2
+    networks:
+      - internal-network
+    container_name: consul-server-1
+    command: "agent -server -bootstrap-expect 3 -ui -client 0.0.0.0 -datacenter=paris"
+
+  consul-server-2:
+    <<: *consul-server
+    container_name: consul-server-2
+    command: "agent -server -retry-join consul-server-1 -client 0.0.0.0 -datacenter=paris"
+
+  consul-server-3:
+    <<: *consul-server
+    container_name: consul-server-3
+    command: "agent -server -retry-join consul-server-1 -client 0.0.0.0 -datacenter=paris"
+
+  vault:
+    image: vault:1.0.2
+    ports:
+      - 8200:8200
+    networks:
+      - internal-network
+    environment:
+      VAULT_ADDR: http://127.0.0.1:8200
+      VAULT_LOCAL_CONFIG: '{"backend":{"consul":{"address":"http://consul-server-1:8500","path":"vault/"}},"listener":{"tcp":{"address":"0.0.0.0:8200","tls_disable":1}},"ui":true, "disable_mlock":true}'
+    command: server
+    volumes:
+      - ./log:/var/log/vault
+    depends_on:
+      - consul-server-1
+      - consul-server-2
+      - consul-server-3
+
+  elasticsearch:
+    image: "docker.elastic.co/elasticsearch/elasticsearch:6.5.4"
+    ports:
+      - 9200:9200
+    networks:
+      - internal-network
+    ulimits:
+      memlock:
+        soft: -1
+        hard: -1
+    environment:
+      cluster.name: paris
+      bootstrap.memory_lock: "true"
+      discovery.type: single-node
+      ES_JAVA_OPTS: -Xms512m -Xmx512m
+
+  kibana:
+    image: "docker.elastic.co/kibana/kibana:6.5.4"
+    ports:
+      - "5601:5601"
+    networks:
+      - internal-network
+    environment:
+      ELASTICSEARCH_URL: http://elasticsearch:9200
+
+  fluentd:
+    image: "custom-fluentd:1.3.3-1.0-va1"
+    command:
+      - "-v"
+    networks:
+      - internal-network
+    volumes:
+      - ./log:/var/log/vault
+    healthcheck:
+      test: ["CMD-SHELL", "netstat -antp | grep LISTEN | grep \"0.0.0.0:24224\""]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+    restart: on-failure
+    depends_on:
+      - elasticsearch
+
+networks:
+  internal-network:
+
