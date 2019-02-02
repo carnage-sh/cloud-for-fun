@@ -29,3 +29,10 @@ summary:
 - [vault-101](https://github.com/gregoryguillou/cloud-for-fun/tree/master/blog/vault-101)
   is a simple Vault built on top of a Consul cluster. It can easily be used
   to explore some feature from Vault.
+- [vault-audit](https://github.com/gregoryguillou/cloud-for-fun/tree/master/blog/vault-audit)
+  is an example of Vault Audit trails being sent into an Elasticsearch with
+  fluentd. It provides a whole stack and addresses some of the concerns of
+  such an infrastructure.
+- [vault-mysql](https://github.com/gregoryguillou/cloud-for-fun/tree/master/blog/vault-mysql)
+  explains how to use Vault with a database to provide always changing
+  passwords and request those on-demand or on application startup
