@@ -19,6 +19,11 @@ const metrics = (req, res) => {
   res.end(Prometheus.register.metrics())
 }
 
+const status = (req, res) => {
+   res.set('Content-Type', 'application/json')
+   res.send('{"status": "ok"}')
+}
+
 function maintenanceService(resolve, reject, callback) {
   registrationEnabled = false
   console.error('Trying to disconnect...')
@@ -134,9 +139,13 @@ function registerService() {
 
 function manageConsul(app, api) {
   app.get('/metrics', metrics)
+  app.get('/status', status)
   const server = http.createServer(app);
   createTerminus(server, options);
-  setTimeout(registerService, 5000)
+  server.listen(8000, '0.0.0.0' , () => {
+     console.log(`${api} started on 0.0.0.0:8000`)
+     setTimeout(registerService, 5000)
+  })
 }
 
 module.exports = manageConsul
