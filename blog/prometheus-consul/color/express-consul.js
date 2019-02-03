@@ -1,13 +1,23 @@
+const { createTerminus } = require('@godaddy/terminus')
+const http = require('http')
 const ip = require('ip')
-const os = require('os')
 const moment = require('moment')
-const request = require('request')
+const os = require('os')
 const process = require('process')
-const { createTerminus } = require('@godaddy/terminus');
+const Prometheus = require('prom-client')
+const request = require('request')
 
 const consul = process.env.CONSUL_HOSTNAME || "localhost"
 let registrationEnabled = true
 let apiName = "color"
+
+const collectDefaultMetrics = Prometheus.collectDefaultMetrics;
+collectDefaultMetrics({ timeout: 5000 });
+
+const metrics = (req, res) => {
+  res.set('Content-Type', Prometheus.register.contentType)
+  res.end(Prometheus.register.metrics())
+}
 
 function maintenanceService(resolve, reject, callback) {
   registrationEnabled = false
@@ -122,7 +132,9 @@ function registerService() {
   }
 }
 
-function manageConsul(server, api) {
+function manageConsul(app, api) {
+  app.get('/metrics', metrics)
+  const server = http.createServer(app);
   createTerminus(server, options);
   setTimeout(registerService, 5000)
 }

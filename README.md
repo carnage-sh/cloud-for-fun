@@ -20,7 +20,11 @@ of them with some links to the blog posts:
   provides an example of an API developed with NodeJS that embeds Prometheus
   custom metrics. It also includes Prometheus and Grafana. see [Prometheus in Action (1/3)](https://gregoryguillou.github.io/2019-01/prometheus-configuration/),
   [(2/3)](https://gregoryguillou.github.io/2019-01/prometheus-application/) and
-  [(3/3)](https://gregoryguillou.github.io/2019-01/prometheus-grafana/) for some details.
+  [(3/3)](https://gregoryguillou.github.io/2019-01/prometheus-grafana/) for
+  some details.
+- [prometheus-consul](https://github.com/gregoryguillou/cloud-for-fun/tree/master/blog/prometheus-consul)
+  show how Prometheus can dynamically discover and monitor a service that
+  registers in Consul.
 - [red-black](https://github.com/gregoryguillou/cloud-for-fun/tree/master/blog/red-black)
   provides an example of an API that can be started/stopped, registers in
   consul and is accessible via Traefik. It shows blue/green updates as explained in
