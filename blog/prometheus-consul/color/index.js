@@ -23,7 +23,3 @@ app.get('/', (req, res) => {
 
 consul(app, "color")
 
-app.listen(8000, '0.0.0.0' , () => {
-    console.log(`Gaming App started on 0.0.0.0:8000`)
-})
-

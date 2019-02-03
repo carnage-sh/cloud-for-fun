@@ -3,6 +3,8 @@ version: '3'
 services:
   color:
     image: color:1.1.0
+    networks:
+      - internal-network
     environment:
       CONSUL_HOSTNAME: consul-server
 
@@ -10,12 +12,16 @@ services:
     image: prom/prometheus:v2.6.1
     ports:
       - 9090:9090
+    networks:
+      - internal-network
     volumes:
       - ./prometheus.yml:/etc/prometheus/prometheus.yml
       - ./prometheus.rules.yml:/etc/prometheus/prometheus.rules.yml
 
   consul-server:
     image: "consul:1.4.2"
+    networks:
+      - internal-network
     command:
       - agent
       - "-client"
@@ -30,3 +36,6 @@ services:
       - 8500:8500
     environment:
       CONSUL_LOCAL_CONFIG: '{"datacenter":"paris","server":true,"enable_debug":true}'
+
+networks:
+  internal-network:
