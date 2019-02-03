@@ -2,14 +2,18 @@ groups:
   - name: metrics_by_api
     rules:
       - record: service_total
-        expr: sum(up) by (api)
+        expr: sum by (api)(up)
 
   - name: monitoring
     rules:
-      - alert: NotEnoughColorService
-        expr: sum(up{api="color"}) <= 1
+      - alert: NotEnoughService
+        expr: |
+          (sum by (api)(up)
+            or absent(up{api="color"})-1
+            or absent(up{api="lb"})-1
+          ) < 2
         labels:
           severity: red
         annotations:
-          summary: "The number of color services should be at least 2"
+          summary: "The number of deployed services should be at least 2"
 
