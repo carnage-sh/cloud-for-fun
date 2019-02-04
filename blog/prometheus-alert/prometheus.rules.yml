@@ -1,0 +1,12 @@
+groups:
+  - name: monitoring
+    rules:
+      - alert: UnreachableURL
+        expr: |
+          (probe_http_status_code{instance="http://nginx/"}) != 200
+        labels:
+          severity: red
+          datacenter: paris
+        annotations:
+          summary: "The URL cannot be reached. Check it manually"
+
