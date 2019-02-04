@@ -1,0 +1,19 @@
+global:
+  slack_api_url: 'SLACK_API_URI'
+
+route:
+  receiver: 'slack-notifications'
+  group_by: ["alertname", "datacenter", "instance"]
+  group_wait: 5s
+  group_interval: 30s
+  repeat_interval: 1m
+
+receivers:
+  - name: 'slack-notifications'
+    slack_configs:
+    - channel: '#devops'
+      text: '{{ template "slack.cloudforfun.text" . }}'
+
+templates:
+  - '/etc/alertmanager/templates/cloud-for-fun.tpl'
+
