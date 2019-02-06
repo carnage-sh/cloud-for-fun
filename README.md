@@ -16,9 +16,10 @@ of them with some links to the blog posts:
   provides an example of managing docker logs with Fluentd, Elasticsearch and
   Grafana. It nicely completes `prometheus-stack`, see
   [Managing logs with Fluentd, ElasticSearch and Grafana](https://gregoryguillou.github.io/2019-01/docker-fluentd-elastic/)
-- [prometheus-stack](https://github.com/gregoryguillou/cloud-for-fun/tree/master/blog/prometheus-alert)
+- [prometheus-alert](https://github.com/gregoryguillou/cloud-for-fun/tree/master/blog/prometheus-alert)
   demonstrates a how to monitor URL and how to notify Ops on Slack. It relies
-  on `blackbox` and `alertmanager`.
+  on `blackbox` and `alertmanager`, see
+  [Monitoring URL and notifying Ops with Prometheus](https://gregoryguillou.github.io/2019-02/prometheus-alert/)
 - [prometheus-consul](https://github.com/gregoryguillou/cloud-for-fun/tree/master/blog/prometheus-consul)
   show how Prometheus can dynamically discover and monitor a service that
   registers in Consul. See
