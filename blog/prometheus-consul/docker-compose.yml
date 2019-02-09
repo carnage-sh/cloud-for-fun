@@ -35,7 +35,7 @@ services:
     ports:
       - 8500:8500
     environment:
-      CONSUL_LOCAL_CONFIG: '{"datacenter":"paris","server":true,"enable_debug":true}'
+      CONSUL_LOCAL_CONFIG: '{"datacenter":"paris","enable_debug":true}'
 
 networks:
   internal-network:

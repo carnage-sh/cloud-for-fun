@@ -24,6 +24,9 @@ of them with some links to the blog posts:
   show how Prometheus can dynamically discover and monitor a service that
   registers in Consul. See
   [Monitoring services with Prometheus and Consul](https://gregoryguillou.github.io/2019-02/prometheus-consul/)
+- [prometheus-mtls](https://github.com/gregoryguillou/cloud-for-fun/tree/master/blog/prometheus-mtls)
+  relies on Consul Connect to prevent direct acces to Prometheus exporters and
+  force mutual authentication with TLS between the server and its exportes... 
 - [prometheus-stack](https://github.com/gregoryguillou/cloud-for-fun/tree/master/blog/prometheus-stack)
   provides an example of an API developed with NodeJS that embeds Prometheus
   custom metrics. It also includes Prometheus and Grafana. see [Prometheus in Action (1/3)](https://gregoryguillou.github.io/2019-01/prometheus-configuration/),

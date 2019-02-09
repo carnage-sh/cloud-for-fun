@@ -1,0 +1,135 @@
+version: '3'
+
+services:
+  consul-server:
+    image: "consul:1.4.2"
+    command:
+      - agent
+      - "-client"
+      - "0.0.0.0"
+      - "-server"
+      - "-bind"
+      - "0.0.0.0"
+      - "-bootstrap-expect"
+      - "1"
+      - "-datacenter"
+      - "paris"
+      - "-ui"
+    ports:
+      - 8500:8500
+    environment:
+      CONSUL_LOCAL_CONFIG: '{"enable_debug":true,"connect":{"enabled":true}}'
+
+  consul-intention:
+    image: "consul:1.4.2"
+    entrypoint: "/bin/sh"
+    command:
+      - "-c"
+      - "sleep 10 && consul intention create \"*\" \"*\""
+    network_mode: service:consul-server
+
+  nginx: 
+    image: nginx:latest
+    volumes:
+      - ./nginx.conf:/etc/nginx/nginx.conf
+    expose: 
+     - 80
+    ports:
+      - 8080:80
+
+  nginx-exporter:
+    image: nginx/nginx-prometheus-exporter:0.2.0
+    command: 
+      - "--nginx.scrape-uri"
+      - "http://nginx/stub_status"
+    environment:
+      - "LISTEN_ADDRESS=127.0.0.1:9113"
+    network_mode: service:nginx-exporter-agent
+    depends_on:
+      - nginx
+      - nginx-exporter-sidecar
+
+  nginx-exporter-agent:
+    image: "consul:1.4.2"
+    command:
+      - agent
+      - "-datacenter"
+      - "paris"
+      - "-bind"
+      - "0.0.0.0"
+      - "-retry-join"
+      - "consul-server"
+      - "-config-dir=/etc/consul.d"
+    volumes:
+      - ./nginx-exporter/consul.d:/etc/consul.d
+
+  nginx-exporter-sidecar:
+    image: "consul:1.4.2"
+    command:
+      - connect
+      - proxy
+      - "-sidecar-for"
+      - "nginx-exporter"
+    network_mode: service:nginx-exporter-agent
+    depends_on:
+      - nginx-exporter-agent
+
+  proxy-agent:
+    image: "consul:1.4.2"
+    command:
+      - agent
+      - "-datacenter"
+      - "paris"
+      - "-bind"
+      - "0.0.0.0"
+      - "-retry-join"
+      - "consul-server"
+    ports:
+      - 9114:9114
+
+  proxy-server:
+    image: "consul:1.4.2"
+    command:
+      - connect
+      - proxy
+      - "-service"
+      - proxy-exporter
+      - -upstream
+      - "nginx-exporter:0.0.0.0:9114"
+    network_mode: service:proxy-agent
+
+  prometheus:
+    image: prom/prometheus:v2.6.1
+    volumes:
+      - ./prometheus.yml:/etc/prometheus/prometheus.yml
+    network_mode: service:prometheus-agent
+    depends_on:
+      - prometheus-sidecar
+
+  prometheus-agent:
+    image: "consul:1.4.2"
+    command:
+      - agent
+      - "-datacenter"
+      - "paris"
+      - "-bind"
+      - "0.0.0.0"
+      - "-retry-join"
+      - "consul-server"
+      - "-config-dir=/etc/consul.d"
+    volumes:
+      - ./prometheus/consul.d:/etc/consul.d
+    ports:
+      - 9090:9090
+
+  prometheus-sidecar:
+    image: "consul:1.4.2"
+    command:
+      - connect
+      - proxy
+      - "-sidecar-for"
+      - "prometheus"
+    network_mode: service:prometheus-agent
+    depends_on:
+      - prometheus-agent
+
