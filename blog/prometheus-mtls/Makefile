@@ -1,2 +1,0 @@
-build:
-	@echo $${YEAH} $(YEAH)
