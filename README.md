@@ -41,6 +41,10 @@ of them with some links to the blog posts:
   is a simple Vault built on top of a Consul cluster. It can easily be used
   to explore some feature from Vault, refer
   [Generate TLS Certificates with Vault](https://gregoryguillou.github.io/2019-01/vault-101/)
+- [vault-kubernetes](https://github.com/gregoryguillou/cloud-for-fun/tree/master/blog/vault-kubernetes)
+  demonstrates how to use Vault's Kubernetes Authentication Method quite easily. For
+  more detailled instructions, see
+  [Vault's Kubernetes Authentication](https://gregoryguillou.github.io/2019-02/vault-kubernetes/)
 - [vault-audit](https://github.com/gregoryguillou/cloud-for-fun/tree/master/blog/vault-audit)
   is an example of Vault Audit trails being sent into an Elasticsearch with
   fluentd. It provides a whole stack and addresses some of the concerns of
