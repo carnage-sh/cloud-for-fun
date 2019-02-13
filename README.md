@@ -24,9 +24,12 @@ of them with some links to the blog posts:
   show how Prometheus can dynamically discover and monitor a service that
   registers in Consul. See
   [Monitoring services with Prometheus and Consul](https://gregoryguillou.github.io/2019-02/prometheus-consul/)
+- [prometheus-envoy](https://github.com/gregoryguillou/cloud-for-fun/tree/master/blog/prometheus-envoy)
+  is basically an enhanced version of `prometheus-consul` that relies not only
+  on Consul connect but also on Envoy for the same purpose.
 - [prometheus-mtls](https://github.com/gregoryguillou/cloud-for-fun/tree/master/blog/prometheus-mtls)
   relies on Consul Connect to prevent direct acces to Prometheus exporters and
-  force mutual authentication with TLS between the server and its exportes... 
+  force mutual authentication with TLS between the server and its exporters... 
 - [prometheus-stack](https://github.com/gregoryguillou/cloud-for-fun/tree/master/blog/prometheus-stack)
   provides an example of an API developed with NodeJS that embeds Prometheus
   custom metrics. It also includes Prometheus and Grafana. see [Prometheus in Action (1/3)](https://gregoryguillou.github.io/2019-01/prometheus-configuration/),
@@ -41,15 +44,15 @@ of them with some links to the blog posts:
   is a simple Vault built on top of a Consul cluster. It can easily be used
   to explore some feature from Vault, refer
   [Generate TLS Certificates with Vault](https://gregoryguillou.github.io/2019-01/vault-101/)
-- [vault-kubernetes](https://github.com/gregoryguillou/cloud-for-fun/tree/master/blog/vault-kubernetes)
-  demonstrates how to use Vault's Kubernetes Authentication Method quite easily. For
-  more detailled instructions, see
-  [Vault's Kubernetes Authentication](https://gregoryguillou.github.io/2019-02/vault-kubernetes/)
 - [vault-audit](https://github.com/gregoryguillou/cloud-for-fun/tree/master/blog/vault-audit)
   is an example of Vault Audit trails being sent into an Elasticsearch with
   fluentd. It provides a whole stack and addresses some of the concerns of
   such an infrastructure, see
   [Managing Vault Audit Trails in Elasticsearch](https://gregoryguillou.github.io/2019-02/vault-audit/)
+- [vault-kubernetes](https://github.com/gregoryguillou/cloud-for-fun/tree/master/blog/vault-kubernetes)
+  demonstrates how to use Vault's Kubernetes Authentication Method quite easily. For
+  more detailled instructions, see
+  [Vault's Kubernetes Authentication](https://gregoryguillou.github.io/2019-02/vault-kubernetes/)
 - [vault-mysql](https://github.com/gregoryguillou/cloud-for-fun/tree/master/blog/vault-mysql)
   explains how to use Vault with a database to provide always changing
   passwords and request those on-demand or on application startup, see
