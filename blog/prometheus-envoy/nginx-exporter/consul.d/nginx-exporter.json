@@ -1,0 +1,7 @@
+{
+  "service": {
+    "name": "nginx-exporter",
+    "port": 9113,
+    "connect": { "sidecar_service": {} }
+  }
+}
