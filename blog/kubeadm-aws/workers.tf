@@ -70,7 +70,7 @@ resource "aws_security_group_rule" "k8s_worker_kubelet" {
   protocol    = "tcp"
   cidr_blocks = ["0.0.0.0/0"]
 
-  security_group_id = "${aws_security_group.k8s_master.id}"
+  security_group_id = "${aws_security_group.k8s_worker.id}"
 }
 
 resource "aws_security_group_rule" "k8s_worker_servicenode" {
@@ -80,7 +80,7 @@ resource "aws_security_group_rule" "k8s_worker_servicenode" {
   protocol    = "tcp"
   cidr_blocks = ["0.0.0.0/0"]
 
-  security_group_id = "${aws_security_group.k8s_master.id}"
+  security_group_id = "${aws_security_group.k8s_worker.id}"
 }
 
 resource "aws_security_group_rule" "k8s_worker_egress" {
