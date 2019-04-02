@@ -16,6 +16,10 @@ of them with some links to the blog posts:
   provides an example of managing docker logs with Fluentd, Elasticsearch and
   Grafana. It nicely completes `prometheus-stack`, see
   [Managing logs with Fluentd, ElasticSearch and Grafana](https://gregoryguillou.github.io/2019-01/docker-fluentd-elastic/)
+- [kubeadm-aws](https://github.com/gregoryguillou/cloud-for-fun/tree/master/blog/kubeadm-aws)
+  provides a set of resources to create a Kubernetes vanilla configuration
+  on AWS, see
+  [Installing Kubernetes 1.14 with Terraform and Kubeadm](https://gregoryguillou.github.io/2019-04/kubeadm-aws)
 - [prometheus-alert](https://github.com/gregoryguillou/cloud-for-fun/tree/master/blog/prometheus-alert)
   demonstrates a how to monitor URL and how to notify Ops on Slack. It relies
   on `blackbox` and `alertmanager`, see
