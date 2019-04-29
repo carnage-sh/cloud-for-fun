@@ -16,7 +16,7 @@ done
 if [[ -z "$DOMAIN" || -z "$CLUSTER" ]]; then
     echo "Add the -d [domain] with a domain, the zone is managed and -c [cluster]"
     echo " For instance, to create red.resetlogs.com, run:"
-    echo " ./install.sh -d resetlogs.com -c red"
+    echo " ./uninstall-kubernetes.sh -d resetlogs.com -c red"
     exit 1
 fi
 
@@ -32,9 +32,9 @@ export AWS_SECRET_ACCESS_KEY=$(cat .$CLUSTER-access-key |jq -r '.AccessKey.Secre
 export AWS_DEFAULT_REGION=$REGION
 
 # Download and test kops
+export PATH=$(pwd):$PATH
 if [[ ! -f "./kops" ]]; then
   curl -L $KOPS_URL -o kops
-  export PATH=$(pwd):$PATH
   chmod +x kops
   kops version
 fi

@@ -16,7 +16,7 @@ done
 if [[ -z "$DOMAIN" || -z "$CLUSTER" ]]; then
     echo "Add the -d [domain] with a domain, the zone is managed and -c [cluster]"
     echo " For instance, to create red.resetlogs.com, run:"
-    echo " ./install.sh -d resetlogs.com -c red"
+    echo " ./install-kubernetes.sh -d resetlogs.com -c red"
     exit 0
 fi
 
@@ -28,9 +28,9 @@ export KOPS_URL="https://github.com/kubernetes/kops/releases/download/1.14.0-alp
 unset AWS_ACCESS_KEY_ID AWS_SECRET_ACCESS_KEY AWS_DEFAULT_REGION AWS_DEFAULT_PROFILE
 
 # Download and test kops
+export PATH=$(pwd):$PATH
 if [[ ! -f "./kops" ]]; then
   curl -L $KOPS_URL -o kops
-  export PATH=$(pwd):$PATH
   chmod +x kops
   kops version
 fi
@@ -73,7 +73,7 @@ kops update cluster --name=$CLUSTER --yes
 # Check the cluster starts as expected
 for i in $(seq 90); do
     sleep 10
-    OK=$(kops validate cluster -o json 2>/dev/null |jq -r '.nodes[] | select (.role=="master") | .status' || true)
+    OK=$(kops validate cluster -o json 2>/dev/null |jq -r '.nodes[] | select (.role=="master") | .status' 2>/dev/null || true)
     echo -n "."
     if [[ "$OK" == "True" ]]; then
         echo "Cluster $CLUSTER created with success"
