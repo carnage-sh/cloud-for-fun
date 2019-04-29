@@ -28,10 +28,12 @@ export KOPS_URL="https://github.com/kubernetes/kops/releases/download/1.14.0-alp
 unset AWS_ACCESS_KEY_ID AWS_SECRET_ACCESS_KEY AWS_DEFAULT_REGION AWS_DEFAULT_PROFILE
 
 # Download and test kops
-curl -L $KOPS_URL -o kops
-export PATH=$(pwd):$PATH
-chmod +x kops
-kops version
+if [[ ! -f "./kops" ]]; then
+  curl -L $KOPS_URL -o kops
+  export PATH=$(pwd):$PATH
+  chmod +x kops
+  kops version
+fi
 
 # Create a dedicated user/group with the required permissions
 aws iam create-group --group-name kops

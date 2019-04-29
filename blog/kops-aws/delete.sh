@@ -23,12 +23,21 @@ fi
 export CLUSTER=red.$DOMAIN
 export BUCKET=kops-$CLUSTER
 export KOPS_STATE_STORE=s3://$BUCKET
+export KOPS_URL="https://github.com/kubernetes/kops/releases/download/1.14.0-alpha.1/kops-darwin-amd64"
 export REGION=eu-west-1
 unset AWS_DEFAULT_PROFILE
 export PATH=$(pwd):$PATH
 export AWS_ACCESS_KEY_ID=$(cat .$CLUSTER-access-key |jq -r '.AccessKey.AccessKeyId')
 export AWS_SECRET_ACCESS_KEY=$(cat .$CLUSTER-access-key |jq -r '.AccessKey.SecretAccessKey')
 export AWS_DEFAULT_REGION=$REGION
+
+# Download and test kops
+if [[ ! -f "./kops" ]]; then
+  curl -L $KOPS_URL -o kops
+  export PATH=$(pwd):$PATH
+  chmod +x kops
+  kops version
+fi
 
 # Delete the cluster and bucket as kops
 kops delete cluster --name=$CLUSTER --yes
