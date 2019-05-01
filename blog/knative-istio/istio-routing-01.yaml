@@ -13,7 +13,7 @@ spec:
     - uri:
         prefix: "/"
     rewrite:
-      authority: helloworld-stable.default.example.com
+      authority: helloworld.default.example.com
     route:
       - destination:
           host: istio-ingressgateway.istio-system.svc.cluster.local
