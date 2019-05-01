@@ -1,0 +1,8 @@
+apiVersion: serving.knative.dev/v1alpha1
+kind: Route
+metadata:
+  name: helloworld-stable
+spec:
+  traffic:
+  - revisionName: helloworld-p57k2
+    percent: 100
