@@ -1,0 +1,18 @@
+apiVersion: build.knative.dev/v1alpha1
+kind: Build
+metadata:
+  name: hi-test-5
+spec:
+  serviceAccountName: builder-sa
+  source:
+    git:
+      url: https://github.com/gregoryguillou/cloud-for-fun.git
+      revision: master
+    subPath: blog/knative-build
+  steps:
+  - name: go-test
+    image: golang:1.12
+    command: ["go"]
+    args:
+      - test
+      - ./...
