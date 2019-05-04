@@ -1,10 +1,10 @@
 apiVersion: sources.eventing.knative.dev/v1alpha1
-kind: CronJobSource 
+kind: CronJobSource
 metadata:
-  name: kevent-cronjob
+  name: cron
 spec:
   schedule: "* * * * *"
-  data: '{"message": "Welcome onboard... Knative"}'
+  data: '{"message": "Hello world!"}'
   sink:
     apiVersion: serving.knative.dev/v1alpha1
     kind: Service
