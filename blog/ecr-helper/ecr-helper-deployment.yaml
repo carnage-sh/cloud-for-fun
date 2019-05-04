@@ -1,0 +1,40 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: ecr-helper
+  namespace: ops
+  labels:
+    app: ecr-helper
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: ecr-helper
+  template:
+    metadata:
+      labels:
+        app: ecr-helper
+    spec:
+      serviceAccountName: ecr-helper
+      containers:
+      - name: ecr-helper
+        image: AWS_ACCOUNT.dkr.ecr.eu-west-1.amazonaws.com/ecr-helper:1.0.0
+        env:
+        - name: AWS_DEFAULT_REGION
+          value: eu-west-1
+        - name: AWS_SECRET_ACCESS_KEY
+          valueFrom:
+            secretKeyRef:
+              name: ecr-helper
+              key: aws_secret_access_key
+        - name: AWS_ACCESS_KEY_ID
+          valueFrom:
+            secretKeyRef:
+              name: ecr-helper
+              key: aws_access_key_id
+        - name: KNATIVE_NAMESPACE
+          value: default
+        - name: KNATIVE_SERVICEACCOUNT
+          value: builder-sa
+---
