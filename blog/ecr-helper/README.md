@@ -67,7 +67,7 @@ should have the permissions to create a secret with the docker credentials in
 the namespace that runs Knative... `ecr-helper-rbac.yaml` contains the
 resource required, it assumes:
 
-- The welcoming namespace is `ops`
+- The welcoming namespace is `ecr-helper`
 - The Knative namespace is `default`
 
 Run the script below to create the resources:
@@ -112,12 +112,12 @@ aws iam create-access-key --user-name=ecr-helper
 ```
 
 The last command provides a pair of access/secret keys, register them as a
-secret in the `ops` namespace by remplacing the `XXX` and `xxx` and running
+secret in the `ecr-helper` namespace by remplacing the `XXX` and `xxx` and running
 the command below:
 
 ```shell
 kubectl create secret generic ecr-helper \
-  --namespace=ops \
+  --namespace=ecr-helper \
   --from-literal=aws_access_key_id=XXX \
   --from-literal=aws_secret_access_key=xxx
 ```
@@ -134,7 +134,7 @@ make deploy
 You can check it is running fine, starting a pod with:
 
 ```shell
-kubectl get all -n ops
+kubectl get all -n ecr-helper
 ```
 
 The `make logs` command, once the pod has started should show the logs,

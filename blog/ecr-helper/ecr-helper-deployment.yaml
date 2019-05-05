@@ -3,7 +3,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: ecr-helper
-  namespace: ops
+  namespace: ecr-helper
   labels:
     app: ecr-helper
 spec:
