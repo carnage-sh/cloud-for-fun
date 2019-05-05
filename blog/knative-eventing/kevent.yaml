@@ -1,0 +1,12 @@
+apiVersion: serving.knative.dev/v1alpha1
+kind: Service
+metadata:
+  name: kevent
+spec:
+  runLatest:
+    configuration:
+      revisionTemplate:
+        spec:
+          serviceAccountName: knative-sa # Ajouter un SA pour charger l'image.
+          container:
+              image: ${AWS_ACCOUNT}.dkr.ecr.eu-west-1.amazonaws.com/kevent:0.0.4 # Positionner votre registry 
