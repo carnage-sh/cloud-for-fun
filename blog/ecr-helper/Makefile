@@ -18,8 +18,8 @@ deploy:
 		kubectl apply -f -
 
 logs:
-	echo "Deployment: $$(kubectl get pod -l app=ecr-helper -n ops -o custom-columns=name:.metadata.name --no-headers)"
-	kubectl logs -n ops -f $$(kubectl get pod -l app=ecr-helper -n ops -o custom-columns=name:.metadata.name --no-headers | head -n 1)
+	echo "Deployment: $$(kubectl get pod -l app=ecr-helper -n ecr-helper -o custom-columns=name:.metadata.name --no-headers)"
+	kubectl logs -n ecr-helper -f $$(kubectl get pod -l app=ecr-helper -n ecr-helper -o custom-columns=name:.metadata.name --no-headers | head -n 1)
 
 push:
 	aws ecr get-login --no-include-email|sh
