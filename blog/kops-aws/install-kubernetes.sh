@@ -67,6 +67,15 @@ sleep 5
 # Create the cluster
 echo kops create cluster --name=$CLUSTER --zones=${REGION}a
 kops create cluster --name=$CLUSTER --zones=${REGION}a
+./kops get ig --name=red.missena.xyz nodes -o yaml | \
+    sed "s/t2.medium/m4.xlarge/g" | \
+    ./kops replace ig --name=red.missena.xyz nodes -f -
+
+# Set the access key for kops
+export AWS_ACCESS_KEY_ID="$(cat .$CLUSTER-access-key |jq -r '.AccessKey.AccessKeyId')"
+export AWS_SECRET_ACCESS_KEY="$(cat .$CLUSTER-access-key |jq -r '.AccessKey.SecretAccessKey')"
+export AWS_DEFAULT_REGION="$REGION"
+
 echo kops update cluster --name=$CLUSTER --yes
 kops update cluster --name=$CLUSTER --yes
 
@@ -83,4 +92,3 @@ done
 
 echo "Cluster $CLUSTER creation failed"
 exit 1
-

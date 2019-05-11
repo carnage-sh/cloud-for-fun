@@ -16,6 +16,12 @@ of them with some links to the blog posts:
   provides an example of managing docker logs with Fluentd, Elasticsearch and
   Grafana. It nicely completes `prometheus-stack`, see
   [Managing logs with Fluentd, ElasticSearch and Grafana](https://gregoryguillou.github.io/2019-01/docker-fluentd-elastic/)
+- [kops-aws](https://github.com/gregoryguillou/cloud-for-fun/tree/master/blog/kops-aws), 
+  [knative-serving](https://github.com/gregoryguillou/cloud-for-fun/tree/master/blog/knative-serving),
+  [knative-istio](https://github.com/gregoryguillou/cloud-for-fun/tree/master/blog/knative-istio),
+  [knative-build](https://github.com/gregoryguillou/cloud-for-fun/tree/master/blog/knative-build),
+  and [knative-eventing](https://github.com/gregoryguillou/cloud-for-fun/tree/master/blog/knative-eventing)
+  are a set of resource to show how you can use the various Knative components
 - [kubeadm-aws](https://github.com/gregoryguillou/cloud-for-fun/tree/master/blog/kubeadm-aws)
   provides a set of resources to create a Kubernetes vanilla configuration
   on AWS, see
