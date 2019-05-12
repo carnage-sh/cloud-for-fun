@@ -1,3 +1,4 @@
 .*-access-key
 kops
 istio-*
+setenv.sh

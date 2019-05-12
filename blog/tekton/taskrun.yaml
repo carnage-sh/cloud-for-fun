@@ -1,0 +1,25 @@
+apiVersion: tekton.dev/v1alpha1
+kind: TaskRun
+metadata:
+  name: build-014
+spec:
+  serviceAccount: tekton
+  taskRef:
+    name: build-docker-image-from-git-source
+  trigger:
+    type: manual
+  inputs:
+    resources:
+      - name: myproject
+        resourceRef:
+          name: cloud-for-fun
+    params:
+      - name: pathToDockerFile
+        value: /workspace/myproject/blog/knative-build/Dockerfile
+      - name: pathToContext
+        value: /workspace/myproject/blog/knative-build
+  outputs:
+    resources:
+      - name: builtImage
+        resourceRef:
+          name: hi-image
