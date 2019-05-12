@@ -1,0 +1,9 @@
+apiVersion: tekton.dev/v1alpha1
+kind: PipelineResource
+metadata:
+  name: hi-image
+spec:
+  type: image
+  params:
+    - name: url
+      value: ${AWS_ACCOUNT}.dkr.ecr.${AWS_REGION}.amazonaws.com/hi:tekton
