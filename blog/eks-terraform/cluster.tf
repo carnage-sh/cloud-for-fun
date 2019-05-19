@@ -4,7 +4,7 @@ resource "aws_eks_cluster" "kubernetes" {
 
   vpc_config {
     security_group_ids = [aws_security_group.kubernetes.id]
-    subnet_ids = aws_subnet.public-subnet.*.id
+    subnet_ids         = aws_subnet.public-subnet.*.id
   }
 
   depends_on = [
