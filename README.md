@@ -12,6 +12,8 @@ The `blog` directory contains projects that supports blog entries from
 [gregoryguillou.github.io](https://gregoryguillou.github.io). Below is the list
 of them with some links to the blog posts:
 
+- [eks-terraform](https://github.com/gregoryguillou/cloud-for-fun/tree/master/blog/eks-terraform) is an example of an AWS Kubernetes EKS cluster built with Terraform 0.12+,
+  see [EKS with terraform 0.12](https://gregoryguillou.github.io/2019-05/eks-terraform)
 - [elasticsearch-stack](https://github.com/gregoryguillou/cloud-for-fun/tree/master/blog/elasticsearch-stack)
   provides an example of managing docker logs with Fluentd, Elasticsearch and
   Grafana. It nicely completes `prometheus-stack`, see
