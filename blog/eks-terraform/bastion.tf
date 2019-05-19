@@ -50,3 +50,13 @@ resource "aws_security_group_rule" "bastion-ssh-ingress" {
   cidr_blocks       = ["0.0.0.0/0"]
 }
 
+resource "aws_security_group_rule" "bastion-local-ingress" {
+  description       = "Allow Local-initiated access back"
+  from_port         = 32768
+  protocol          = "tcp"
+  to_port           = 65535
+  type              = "ingress"
+  security_group_id = aws_security_group.bastion.id
+  cidr_blocks       = ["0.0.0.0/0"]
+}
+

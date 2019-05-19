@@ -33,6 +33,38 @@ resource "aws_iam_role_policy_attachment" "worker-node-AmazonEC2ContainerRegistr
   role = aws_iam_role.worker-node.name
 }
 
+resource "aws_iam_role_policy" "worker-node-external-dns" {
+  name = "worker-node-external-dns"
+  role = aws_iam_role.worker-node.name
+
+  policy = <<EOF
+{
+ "Version": "2012-10-17",
+ "Statement": [
+   {
+     "Effect": "Allow",
+     "Action": [
+       "route53:ChangeResourceRecordSets"
+     ],
+     "Resource": [
+       "arn:aws:route53:::hostedzone/*"
+     ]
+   },
+   {
+     "Effect": "Allow",
+     "Action": [
+       "route53:ListHostedZones",
+       "route53:ListResourceRecordSets"
+     ],
+     "Resource": [
+       "*"
+     ]
+   }
+ ]
+}
+EOF
+}
+
 resource "aws_iam_instance_profile" "worker-node" {
   name = "eks-${aws_eks_cluster.kubernetes.name}-worker"
   role = aws_iam_role.worker-node.name
@@ -101,6 +133,7 @@ resource "aws_security_group_rule" "cluster-node-egress" {
   protocol = "tcp"
   to_port = 65535
   type = "egress"
+  
   security_group_id = aws_security_group.kubernetes.id
   source_security_group_id = aws_security_group.worker-node.id
 }
@@ -121,8 +154,7 @@ data "aws_ami" "eks-worker" {
   owners = ["602401143452"] # Amazon Account ID
 }
 
-data "aws_region" "current" {
-}
+data "aws_region" "current" {}
 
 locals {
   worker-node-userdata = <<USERDATA
@@ -133,41 +165,40 @@ USERDATA
 }
 
 resource "aws_launch_configuration" "worker" {
-associate_public_ip_address = false
+  associate_public_ip_address = false
 
-iam_instance_profile = aws_iam_instance_profile.worker-node.name
-image_id             = data.aws_ami.eks-worker.id
-instance_type        = "m5.large"
-name_prefix          = "eks-${aws_eks_cluster.kubernetes.name}-worker"
+  iam_instance_profile = aws_iam_instance_profile.worker-node.name
+  image_id             = data.aws_ami.eks-worker.id
+  instance_type        = "m5.large"
+  name_prefix          = "eks-${aws_eks_cluster.kubernetes.name}-worker"
 
-security_groups = [aws_security_group.worker-node.id]
+  security_groups = [aws_security_group.worker-node.id]
 
-user_data_base64 = base64encode(local.worker-node-userdata)
-key_name         = aws_key_pair.sshkey.key_name
+  user_data_base64 = base64encode(local.worker-node-userdata)
+  key_name         = aws_key_pair.sshkey.key_name
 
-lifecycle {
-create_before_destroy = true
-}
+  lifecycle {
+    create_before_destroy = true
+  }
 }
 
 resource "aws_autoscaling_group" "worker" {
-desired_capacity     = 1
-launch_configuration = aws_launch_configuration.worker.id
-max_size             = 2
-min_size             = 1
-name                 = "eks-${aws_eks_cluster.kubernetes.name}-worker"
-vpc_zone_identifier  = aws_subnet.private-subnet.*.id
+  desired_capacity     = 1
+  launch_configuration = aws_launch_configuration.worker.id
+  max_size             = 2
+  min_size             = 1
+  name                 = "eks-${aws_eks_cluster.kubernetes.name}-worker"
+  vpc_zone_identifier  = aws_subnet.private-subnet.*.id
 
-tag {
-key                 = "Name"
-value               = "eks-${aws_eks_cluster.kubernetes.name}-worker"
-propagate_at_launch = true
-}
+  tag {
+    key                 = "Name"
+    value               = "eks-${aws_eks_cluster.kubernetes.name}-worker"
+    propagate_at_launch = true
+  }
 
-tag {
-key                 = "kubernetes.io/cluster/${aws_eks_cluster.kubernetes.name}"
-value               = "owned"
-propagate_at_launch = true
+  tag {
+    key                 = "kubernetes.io/cluster/${aws_eks_cluster.kubernetes.name}"
+    value               = "owned"
+    propagate_at_launch = true
+  }
 }
-}
-
