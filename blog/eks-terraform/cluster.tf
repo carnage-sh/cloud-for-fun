@@ -3,9 +3,13 @@ resource "aws_eks_cluster" "kubernetes" {
   role_arn = aws_iam_role.kubernetes_role.arn
 
   vpc_config {
+    endpoint_private_access = true
+    endpoint_public_access = true
     security_group_ids = [aws_security_group.kubernetes.id]
     subnet_ids         = aws_subnet.public-subnet.*.id
   }
+
+  enabled_cluster_log_types = [ "api", "audit", "authenticator", "controllerManager", "scheduler" ]
 
   depends_on = [
     aws_iam_role_policy_attachment.kubernetes_cluster_policy,
