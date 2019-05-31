@@ -183,7 +183,7 @@ resource "aws_launch_configuration" "worker" {
 }
 
 resource "aws_autoscaling_group" "worker" {
-  desired_capacity     = 1
+  desired_capacity     = 2
   launch_configuration = aws_launch_configuration.worker.id
   max_size             = 2
   min_size             = 1

@@ -17,7 +17,7 @@ curl -L -o- \
   sed s~\<\.\*\>~${ROLE}~g | kubectl apply -f -
 
 while true; do
-  STATUS=$(kubectl get nodes --no-headers=true|awk '{print $2}')
+  STATUS=$(kubectl get nodes --no-headers=true| awk '{print $2}' | uniq)
   if [[ "$STATUS" == "Ready" ]]; then
     break
   fi
