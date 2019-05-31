@@ -1,0 +1,14 @@
+apiVersion: "authentication.istio.io/v1alpha1"
+kind: "Policy"
+metadata:
+  name: echoserver
+spec:
+  targets:
+  - name: echoserver
+  peers:
+  - mtls: {}
+  origins:
+  - jwt:
+      issuer: "https://no-ops.auth0.com/"
+      jwksUri: "https://no-ops.auth0.com/.well-known/jwks.json"
+  principalBinding: USE_ORIGIN
