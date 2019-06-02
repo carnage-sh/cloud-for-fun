@@ -10,7 +10,10 @@ require (
 	github.com/labstack/gommon v0.2.8 // indirect
 	github.com/leodido/go-urn v1.1.0 // indirect
 	github.com/mattn/go-colorable v0.1.2 // indirect
+	github.com/opentracing/opentracing-go v1.1.0
 	github.com/stretchr/testify v1.3.0
+	github.com/uber/jaeger-client-go v2.16.0+incompatible
+	github.com/uber/jaeger-lib v2.0.0+incompatible // indirect
 	github.com/valyala/fasttemplate v1.0.1 // indirect
 	golang.org/x/crypto v0.0.0-20190530122614-20be4c3c3ed5 // indirect
 	gopkg.in/go-playground/validator.v9 v9.29.0
