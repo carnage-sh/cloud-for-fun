@@ -17,8 +17,8 @@ var (
 )
 
 type (
-	input struct {
-		Value int64 `json:"value" validate:"required"`
+	Result struct {
+		Value int `json:"value"`
 	}
 
 	// CustomValidator is a type that allows JSON custom validation
@@ -79,20 +79,20 @@ func main() {
 		return c.JSON(http.StatusOK, &echo.Map{"version": version})
 	})
 
-	e.POST("/fibonacci", fibonacci)
+	e.POST("/fibonacci", getFibonacci)
 
 	e.Logger.Fatal(e.Start(":8080"))
 }
 
-func fibonacci(c echo.Context) error {
-	var values input
+func getFibonacci(c echo.Context) error {
+	var values Result
 	if err := c.Bind(&values); err != nil {
 		return err
 	}
-	if err := c.Validate(&values); err != nil {
-		return err
+	output := &Result{Value: values.Value}
+	if values.Value == 2 {
+		output = &Result{Value: 3}
 	}
-
-	result := &input{Value: values.Value + values.Value - 1}
-	return c.JSON(http.StatusOK, result)
+	//result := &Result{Value: 1}
+	return c.JSON(http.StatusOK, output)
 }

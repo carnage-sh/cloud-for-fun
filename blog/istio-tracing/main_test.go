@@ -20,24 +20,25 @@ func TestMain(m *testing.M) {
 }
 
 var (
-	inputJSON = `{"value":3}`
+	inputJSON = `{"value":2}`
 )
 
-func TestAdd(t *testing.T) {
+func TestGetFibonacci(t *testing.T) {
+	// Setup
 	e := echo.New()
-
-	req := httptest.NewRequest(http.MethodPost, "/fibonacci", strings.NewReader(inputJSON))
+	req := httptest.NewRequest(http.MethodGet, "/", strings.NewReader(inputJSON))
 	req.Header.Set(echo.HeaderContentType, echo.MIMEApplicationJSON)
 	req.Header.Set(echo.HeaderAccept, echo.MIMEApplicationJSON)
 
 	rec := httptest.NewRecorder()
 	c := e.NewContext(req, rec)
+	c.SetPath("/fibonacci")
 
-	fibonacci(c)
-	assert.Equal(t, http.StatusOK, rec.Code)
-	t.Log(rec.Body.String())
-	var j input
-	json.Unmarshal(rec.Body.Bytes(), &j)
-	t.Logf("And now... %v", j)
-	assert.Equal(t, int64(3), j.Value, "A should be equal to 3")
+	// Assertions
+	if assert.NoError(t, getFibonacci(c)) {
+		assert.Equal(t, http.StatusOK, rec.Code)
+		var result Result
+		json.Unmarshal(rec.Body.Bytes(), &result)
+		assert.Equal(t, 3, result.Value, "Result should be 3")
+	}
 }
