@@ -15,8 +15,11 @@ spec:
     labels:
       version: v3
   trafficPolicy:
+    loadBalancer:
+      simple: ROUND_ROBIN
     outlierDetection:
-      baseEjectionTime: 180.000s
+      baseEjectionTime: 180s
       consecutiveErrors: 1
-      interval: 10s
+      interval: 5s
       maxEjectionPercent: 100
+

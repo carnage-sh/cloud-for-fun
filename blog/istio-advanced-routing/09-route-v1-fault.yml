@@ -10,7 +10,7 @@ spec:
   http:
   - fault:
       delay:
-        fixedDelay: 1s
+        fixedDelay: 3s
         percent: 100
     match:
     - uri:
