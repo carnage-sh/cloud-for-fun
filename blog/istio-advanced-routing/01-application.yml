@@ -1,0 +1,102 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: recursed
+  labels:
+    app: recursed
+spec:
+  ports:
+  - port: 8000
+    name: http
+  selector:
+    app: recursed
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: recursed-v1
+spec:
+  selector:
+    matchLabels:
+      app: recursed
+      version: v1
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: recursed
+        version: v1
+    spec:
+      containers:
+      - name: recursed
+        image: gregoryguillou/recursed:0.6.0
+        command:
+        - ./recursed
+        - -istio
+        resources:
+          requests:
+            cpu: "100m"
+        imagePullPolicy: IfNotPresent
+        ports:
+        - containerPort: 8000
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: recursed-v2
+spec:
+  selector:
+    matchLabels:
+      app: recursed
+      version: v2
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: recursed
+        version: v2
+    spec:
+      containers:
+      - name: recursed
+        image: gregoryguillou/recursed:0.6.0
+        command:
+        - ./recursed
+        - -istio
+        - -delay=2000
+        - -version=v2
+        resources:
+          requests:
+            cpu: "100m"
+        imagePullPolicy: IfNotPresent
+        ports:
+        - containerPort: 8000
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: recursed-v3
+spec:
+  selector:
+    matchLabels:
+      app: recursed
+      version: v3
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: recursed
+        version: v3
+    spec:
+      containers:
+      - name: recursed
+        image: gregoryguillou/recursed:0.6.0
+        command:
+        - ./recursed
+        - -istio
+        - -version=v3
+        resources:
+          requests:
+            cpu: "100m"
+        imagePullPolicy: IfNotPresent
+        ports:
+        - containerPort: 8000
