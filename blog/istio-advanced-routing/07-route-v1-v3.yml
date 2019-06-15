@@ -17,10 +17,10 @@ spec:
         subset: v1
         port:
           number: 8000
-      weight: 90
+      weight: 80
     - destination:
         host: recursed
         subset: v3
         port:
           number: 8000
-      weight: 10
+      weight: 20

@@ -8,23 +8,15 @@ spec:
   gateways:
   - recursed
   http:
-  - route:
+  - match:
+     - uri:
+         prefix: /
+    route:
     - destination:
         host: recursed
         port:
           number: 8000
-        subset: v1
-      weight: 50
-    - destination:
-         host: recursed
-         port:
-           number: 8000
-         subset: v2
-      weight: 50
-    timeout: 3s
+    timeout: 1s
     retries:
       attempts: 3
       perTryTimeout: 0.5s
-    match:
-    - uri:
-        prefix: /

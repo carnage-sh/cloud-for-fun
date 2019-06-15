@@ -8,7 +8,7 @@ export RESET="\033[0m"
 
 while true; do
     START=$(date +"%s")
-    VERSION=$(curl --silent --max-time 5 http://$GW/hello | jq -r '.version' 2>/dev/null)
+    VERSION=$(curl --silent --max-time 10 http://$GW/hello | jq -r '.version' 2>/dev/null)
     END=$(date +"%s")
     if [[ "$VERSION" == "v1" ]]; then
         echo -e "${BLACK}API returns $VERSION, time: $(($END - $START)) ${RESET}"
