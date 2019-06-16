@@ -1,0 +1,45 @@
+apiVersion: config.istio.io/v1alpha2
+kind: instance
+metadata:
+  name: recursed
+  namespace: istio-system
+spec:
+  compiledTemplate: metric
+  params:
+    value: "1"
+    dimensions:
+      reporter: conditional((context.reporter.kind | "inbound") == "outbound", "client", "server")
+      source: source.workload.name | "unknown"
+      destination: destination.workload.name | "unknown"
+      version: destination.labels["version"] | "unknown"
+    monitored_resource_type: '"UNSPECIFIED"'
+---
+apiVersion: config.istio.io/v1alpha2
+kind: handler
+metadata:
+  name: recursedhandler
+  namespace: istio-system
+spec:
+  compiledAdapter: prometheus
+  params:
+    metrics:
+    - name: recursed_request_count # Prometheus metric name
+      instance_name: recursed.instance.istio-system # Mixer instance name (fully-qualified)
+      kind: COUNTER
+      label_names:
+      - reporter
+      - source
+      - destination
+      - version
+---
+apiVersion: config.istio.io/v1alpha2
+kind: rule
+metadata:
+  name: recursedprom
+  namespace: istio-system
+spec:
+  match: (destination.service.host == "recursed.default.svc.cluster.local") && (context.reporter.kind == "outbound")
+  actions:
+  - handler: recursedhandler
+    instances: [ recursed ]
+...
