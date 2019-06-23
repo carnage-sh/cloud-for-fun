@@ -9,6 +9,8 @@ resource "aws_eks_cluster" "kubernetes" {
     subnet_ids         = aws_subnet.public-subnet.*.id
   }
 
+  version = "1.13"
+
   enabled_cluster_log_types = [ "api", "audit", "authenticator", "controllerManager", "scheduler" ]
 
   depends_on = [
