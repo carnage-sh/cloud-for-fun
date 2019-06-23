@@ -12,7 +12,9 @@ resource "aws_vpc" "kubernetes" {
 resource "aws_route53_zone" "internal" {
   name = "${var.name[terraform.workspace]}.kubernetes"
 
-  vpc_id = aws_vpc.kubernetes.id
+  vpc {
+    vpc_id = aws_vpc.kubernetes.id
+  }
 }
 
 data "aws_availability_zones" "az" {
