@@ -23,7 +23,7 @@ resource "aws_security_group_rule" "bastion_internal" {
   from_port   = 0
   to_port     = 0
   protocol    = "-1"
-  cidr_blocks = ["10.42.0.0/16"]
+  cidr_blocks = ["0.0.0.0/0"]
 
   security_group_id = aws_security_group.bastion.id
 }
@@ -33,15 +33,63 @@ resource "aws_security_group_rule" "bastion_bounce" {
   from_port   = 32768
   to_port     = 60999
   protocol    = "tcp"
-  cidr_blocks = ["10.42.0.0/16"]
+  cidr_blocks = ["0.0.0.0/0"]
 
   security_group_id = aws_security_group.bastion.id
+}
+
+resource "aws_iam_instance_profile" "kubernetes_bastion_profile" {
+  name = "kubernetes-bastion-profile"
+  role = aws_iam_role.kubernetes_bastion_role.name
+}
+
+resource "aws_iam_role" "kubernetes_bastion_role" {
+  name = "kubernetes-bastion-role"
+
+  assume_role_policy = <<EOF
+{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Action": "sts:AssumeRole",
+      "Principal": {
+        "Service": "ec2.amazonaws.com"
+      },
+      "Effect": "Allow",
+      "Sid": ""
+    }
+  ]
+}
+EOF
+
+}
+
+resource "aws_iam_role_policy" "kubernetes_bastion_role_policy" {
+  name = "kubernetes-bastion-role-policy"
+  role = aws_iam_role.kubernetes_bastion_role.id
+
+  policy = <<EOF
+{
+    "Version": "2012-10-17",
+    "Statement": [
+        {
+            "Effect": "Allow",
+            "Action": [
+                "ecr:*"
+            ],
+            "Resource": "*"
+        }
+    ]
+}
+EOF
+
 }
 
 resource "aws_instance" "bastion" {
   count = "1"
 
   ami                    = data.aws_ami.amazon-linux-2.id
+  iam_instance_profile   = aws_iam_instance_profile.kubernetes_bastion_profile.name
   instance_type          = "t2.micro"
   vpc_security_group_ids = [aws_security_group.bastion.id]
 

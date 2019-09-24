@@ -92,31 +92,11 @@ resource "aws_security_group" "k8s_worker" {
   }
 }
 
-resource "aws_security_group_rule" "k8s_worker_ssh" {
+resource "aws_security_group_rule" "k8s_worker_ingress" {
   type        = "ingress"
-  from_port   = 22
-  to_port     = 22
-  protocol    = "tcp"
-  cidr_blocks = ["0.0.0.0/0"]
-
-  security_group_id = aws_security_group.k8s_worker.id
-}
-
-resource "aws_security_group_rule" "k8s_worker_kubelet" {
-  type        = "ingress"
-  from_port   = 10250
-  to_port     = 10250
-  protocol    = "tcp"
-  cidr_blocks = ["0.0.0.0/0"]
-
-  security_group_id = aws_security_group.k8s_worker.id
-}
-
-resource "aws_security_group_rule" "k8s_worker_servicenode" {
-  type        = "ingress"
-  from_port   = 30000
-  to_port     = 32767
-  protocol    = "tcp"
+  from_port   = 0
+  to_port     = 0
+  protocol    = "-1"
   cidr_blocks = ["0.0.0.0/0"]
 
   security_group_id = aws_security_group.k8s_worker.id
@@ -148,7 +128,7 @@ gpgcheck=0
 repo_gpgcheck=0
 EOF
 
-yum update
+yum -y update
 yum install -y docker
 
 mkdir -p /etc/docker
@@ -192,7 +172,7 @@ resource "aws_launch_configuration" "kubernetes_worker" {
 
   iam_instance_profile = aws_iam_instance_profile.kubernetes_worker_profile.name
   image_id             = data.aws_ami.amazon-linux-2.id
-  instance_type        = "t2.medium"
+  instance_type        = "m5.large"
   name_prefix          = "eks-kubernetes-worker"
 
   security_groups = [aws_security_group.k8s_worker.id]

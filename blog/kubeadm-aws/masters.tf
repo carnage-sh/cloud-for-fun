@@ -4,61 +4,11 @@ resource "aws_security_group" "k8s_master" {
   vpc_id      = aws_vpc.main.id
 }
 
-resource "aws_security_group_rule" "k8s_master_ssh" {
+resource "aws_security_group_rule" "k8s_master_ingress" {
   type        = "ingress"
-  from_port   = 22
-  to_port     = 22
-  protocol    = "tcp"
-  cidr_blocks = ["0.0.0.0/0"]
-
-  security_group_id = aws_security_group.k8s_master.id
-}
-
-resource "aws_security_group_rule" "k8s_master_apiserver" {
-  type        = "ingress"
-  from_port   = 6443
-  to_port     = 6443
-  protocol    = "tcp"
-  cidr_blocks = ["0.0.0.0/0"]
-
-  security_group_id = aws_security_group.k8s_master.id
-}
-
-resource "aws_security_group_rule" "k8s_master_etcd" {
-  type        = "ingress"
-  from_port   = 2379
-  to_port     = 2380
-  protocol    = "tcp"
-  cidr_blocks = ["0.0.0.0/0"]
-
-  security_group_id = aws_security_group.k8s_master.id
-}
-
-resource "aws_security_group_rule" "k8s_master_kubelet" {
-  type        = "ingress"
-  from_port   = 10250
-  to_port     = 10250
-  protocol    = "tcp"
-  cidr_blocks = ["0.0.0.0/0"]
-
-  security_group_id = aws_security_group.k8s_master.id
-}
-
-resource "aws_security_group_rule" "k8s_master_kubescheduler" {
-  type        = "ingress"
-  from_port   = 10251
-  to_port     = 10251
-  protocol    = "tcp"
-  cidr_blocks = ["0.0.0.0/0"]
-
-  security_group_id = aws_security_group.k8s_master.id
-}
-
-resource "aws_security_group_rule" "k8s_master_kubecontroller" {
-  type        = "ingress"
-  from_port   = 10252
-  to_port     = 10252
-  protocol    = "tcp"
+  from_port   = 0
+  to_port     = 0
+  protocol    = "-1"
   cidr_blocks = ["0.0.0.0/0"]
 
   security_group_id = aws_security_group.k8s_master.id
@@ -185,7 +135,7 @@ gpgcheck=0
 repo_gpgcheck=0
 EOF
 
-yum update
+yum -y update
 yum install -y docker
 
 mkdir -p /etc/docker
@@ -230,7 +180,7 @@ resource "aws_launch_configuration" "kubernetes_master" {
 
   iam_instance_profile = aws_iam_instance_profile.kubernetes_master_profile.name
   image_id             = data.aws_ami.amazon-linux-2.id
-  instance_type        = "t2.medium"
+  instance_type        = "m5.large"
   name_prefix          = "eks-kubernetes-master"
 
   security_groups = [aws_security_group.k8s_master.id]
