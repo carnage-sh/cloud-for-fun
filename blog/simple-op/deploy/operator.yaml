@@ -1,0 +1,33 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: simple-op
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      name: simple-op
+  template:
+    metadata:
+      labels:
+        name: simple-op
+    spec:
+      serviceAccountName: simple-op
+      containers:
+        - name: simple-op
+          # Replace this with the built image name
+          image: REPLACE_IMAGE
+          command:
+          - simple-op
+          imagePullPolicy: Always
+          env:
+            - name: WATCH_NAMESPACE
+              valueFrom:
+                fieldRef:
+                  fieldPath: metadata.namespace
+            - name: POD_NAME
+              valueFrom:
+                fieldRef:
+                  fieldPath: metadata.name
+            - name: OPERATOR_NAME
+              value: "simple-op"
