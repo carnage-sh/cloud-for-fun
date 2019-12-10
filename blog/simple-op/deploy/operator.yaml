@@ -16,7 +16,7 @@ spec:
       containers:
         - name: simple-op
           # Replace this with the built image name
-          image: REPLACE_IMAGE
+          image: quay.io/carnage/bot-operator:v0.0.1
           command:
           - simple-op
           imagePullPolicy: Always
