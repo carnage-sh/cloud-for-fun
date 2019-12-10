@@ -1,0 +1,11 @@
+kind: RoleBinding
+apiVersion: rbac.authorization.k8s.io/v1
+metadata:
+  name: simple-op
+subjects:
+- kind: ServiceAccount
+  name: simple-op
+roleRef:
+  kind: Role
+  name: simple-op
+  apiGroup: rbac.authorization.k8s.io

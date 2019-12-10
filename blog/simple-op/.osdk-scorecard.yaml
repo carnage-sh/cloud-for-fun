@@ -1,0 +1,14 @@
+scorecard:
+  # Setting a global scorecard option
+  output: json
+  plugins:
+    # `basic` tests configured to test 2 CRs
+    - basic:
+        cr-manifest:
+          - "deploy/crds/example.carnage.sh_v1alpha1_bot_cr.yaml"
+    # `olm` tests configured to test 2 CRs
+    - olm:
+        cr-manifest:
+          - "deploy/crds/example.carnage.sh_v1alpha1_bot_cr.yaml"
+        csv-path: "deploy/olm-catalog/simple-op/0.0.1/simple-op.v0.0.1.clusterserviceversion.yaml"
+

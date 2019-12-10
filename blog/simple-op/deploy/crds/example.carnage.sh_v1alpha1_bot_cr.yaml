@@ -1,0 +1,7 @@
+apiVersion: example.carnage.sh/v1alpha1
+kind: Bot
+metadata:
+  name: example-bot
+spec:
+  # Add fields here
+  size: 3
