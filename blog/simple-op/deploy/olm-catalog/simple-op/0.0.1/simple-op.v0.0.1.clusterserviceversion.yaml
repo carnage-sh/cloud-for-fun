@@ -11,7 +11,7 @@ metadata:
             "name": "example-bot"
           },
           "spec": {
-            "size": 3
+            "alias": "mybot"
           }
         }
       ]
@@ -22,9 +22,11 @@ spec:
   apiservicedefinitions: {}
   customresourcedefinitions:
     owned:
-    - kind: Bot
+    - description: Bot is the Schema for the bots API
+      kind: Bot
       name: bots.example.carnage.sh
       version: v1alpha1
+      displayName: Simple Op
   description: Placeholder description
   displayName: Simple Op
   install:
@@ -75,7 +77,13 @@ spec:
           - configmaps
           - secrets
           verbs:
-          - '*'
+          - create
+          - delete
+          - get
+          - list
+          - patch
+          - update
+          - watch
         - apiGroups:
           - apps
           resources:
@@ -84,7 +92,13 @@ spec:
           - replicasets
           - statefulsets
           verbs:
-          - '*'
+          - create
+          - delete
+          - get
+          - list
+          - patch
+          - update
+          - watch
         - apiGroups:
           - monitoring.coreos.com
           resources:
@@ -118,7 +132,13 @@ spec:
           resources:
           - '*'
           verbs:
-          - '*'
+          - create
+          - delete
+          - get
+          - list
+          - patch
+          - update
+          - watch
         serviceAccountName: simple-op
     strategy: deployment
   installModes:
@@ -130,7 +150,12 @@ spec:
     type: MultiNamespace
   - supported: true
     type: AllNamespaces
+  keywords:
+  - operators
+  maintainers:
+  - email: tryme@gmail.com
+    name: Gregory
   maturity: alpha
-  provider: {}
-  replaces: simple-op.v0.0.0
+  provider:
+    name: Gregory
   version: 0.0.1
