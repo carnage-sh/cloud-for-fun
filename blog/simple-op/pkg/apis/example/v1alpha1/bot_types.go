@@ -8,23 +8,26 @@ import (
 // NOTE: json tags are required.  Any new fields you add must have json tags for the fields to be serialized.
 
 // BotSpec defines the desired state of Bot
-// +k8s:openapi-gen=true
 type BotSpec struct {
+	// INSERT ADDITIONAL SPEC FIELDS - desired state of cluster
+	// Important: Run "operator-sdk generate k8s" to regenerate code after modifying this file
+	// Add custom validation using kubebuilder tags: https://book-v1.book.kubebuilder.io/beyond_basics/generating_crd.html
 	// +kubebuilder:validation:MaxLength=15
 	// +kubebuilder:validation:MinLength=1
-	Name string `json:"name,omitempty"`
+	Alias string `json:"alias,omitempty"`
 }
 
 // BotStatus defines the observed state of Bot
-// +k8s:openapi-gen=true
 type BotStatus struct {
+	// INSERT ADDITIONAL STATUS FIELD - define observed state of cluster
+	// Important: Run "operator-sdk generate k8s" to regenerate code after modifying this file
+	// Add custom validation using kubebuilder tags: https://book-v1.book.kubebuilder.io/beyond_basics/generating_crd.html
 	lastState string `json:"last_state,omitempty"`
 }
 
 // +k8s:deepcopy-gen:interfaces=k8s.io/apimachinery/pkg/runtime.Object
 
 // Bot is the Schema for the bots API
-// +k8s:openapi-gen=true
 // +kubebuilder:subresource:status
 // +kubebuilder:resource:path=bots,scope=Namespaced
 type Bot struct {
