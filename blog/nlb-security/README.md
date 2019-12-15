@@ -44,7 +44,7 @@ sudo systemctl start nginx
 curl localhost
 ```
 
-## Testing the security
+## Testing NLB security
 
 Assuming you've correctly set the variables, you should be able:
 
@@ -57,4 +57,11 @@ You should be able to access the http (via curl) as well as the ssh protocol
 both with the alias and the IP for the NLB. If you change the value in
 `personal_ip` for some one that is not your and apply the change, you should
 not be able to get the access anymore.
+
+## Other tests
+
+You can add a variable named `private` to `false` in the `variables.auto.tfvars`
+and apply the stack again. If that is the case, you will remove the private part
+of the stack, inlcuding the NLB and keep a simple stack with a VPC, a public
+subnet and a m5.large instance.
 
