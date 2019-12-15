@@ -1,7 +1,7 @@
 package controller
 
 import (
-	"github.com/gregoryguillou/cloud-for-fun/blog/simple-op/pkg/controller/bot"
+	"github.com/carnage-sh/cloud-for-fun/blog/simple-op/pkg/controller/bot"
 )
 
 func init() {

@@ -1,4 +1,4 @@
-module github.com/gregoryguillou/cloud-for-fun/blog/simple-op
+module github.com/carnage-sh/cloud-for-fun/blog/simple-op
 
 go 1.13
 

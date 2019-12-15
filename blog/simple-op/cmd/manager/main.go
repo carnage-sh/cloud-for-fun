@@ -11,9 +11,9 @@ import (
 	_ "k8s.io/client-go/plugin/pkg/client/auth"
 	"k8s.io/client-go/rest"
 
-	"github.com/gregoryguillou/cloud-for-fun/blog/simple-op/pkg/apis"
-	"github.com/gregoryguillou/cloud-for-fun/blog/simple-op/pkg/controller"
-	"github.com/gregoryguillou/cloud-for-fun/blog/simple-op/version"
+	"github.com/carnage-sh/cloud-for-fun/blog/simple-op/pkg/apis"
+	"github.com/carnage-sh/cloud-for-fun/blog/simple-op/pkg/controller"
+	"github.com/carnage-sh/cloud-for-fun/blog/simple-op/version"
 
 	"github.com/operator-framework/operator-sdk/pkg/k8sutil"
 	kubemetrics "github.com/operator-framework/operator-sdk/pkg/kube-metrics"

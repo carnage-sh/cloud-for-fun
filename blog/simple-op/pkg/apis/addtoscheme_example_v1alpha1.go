@@ -1,7 +1,7 @@
 package apis
 
 import (
-	"github.com/gregoryguillou/cloud-for-fun/blog/simple-op/pkg/apis/example/v1alpha1"
+	"github.com/carnage-sh/cloud-for-fun/blog/simple-op/pkg/apis/example/v1alpha1"
 )
 
 func init() {

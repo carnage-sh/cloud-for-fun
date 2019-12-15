@@ -7,7 +7,7 @@ curl -XPOST --header 'Content-Type: application/json' \
      "labels": {
         "alertname": "UnreachableURL",
         "datacenter": "paris",
-        "instance": "https://gregoryguillou.github.io"
+        "instance": "https://www.carnage.sh"
       },
       "annotations": {
          "info": "The URL for the nginx service is unavailable",

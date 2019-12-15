@@ -8,4 +8,4 @@ spec:
     - name: revision
       value: master
     - name: url
-      value: https://github.com/gregoryguillou/cloud-for-fun
+      value: https://github.com/carnage-sh/cloud-for-fun
