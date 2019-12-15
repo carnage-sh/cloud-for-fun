@@ -44,3 +44,17 @@ sudo systemctl start nginx
 curl localhost
 ```
 
+## Testing the security
+
+Assuming you've correctly set the variables, you should be able:
+
+- To figure out the NLB cname with
+  `terraform state show aws_lb.loadbalancer`
+- To figure out the EIP you've attached to the NLB with 
+  `terraform state show aws_eip.loadbalancer`
+
+You should be able to access the http (via curl) as well as the ssh protocol
+both with the alias and the IP for the NLB. If you change the value in
+`personal_ip` for some one that is not your and apply the change, you should
+not be able to get the access anymore.
+
