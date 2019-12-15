@@ -1,12 +1,16 @@
 variable "public_key" {
-   type = string
+  type = string
 }
 
 variable "profile" {
-   type = string
+  type = string
 }
 
 variable "personal_ip" {
-   type = string
+  type = string
 }
 
+variable "private" {
+  type    = bool
+  default = true
+}

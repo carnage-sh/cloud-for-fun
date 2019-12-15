@@ -21,13 +21,13 @@ resource "aws_key_pair" "key" {
 
 resource "aws_instance" "public" {
   ami           = data.aws_ami.amazon.id
-  instance_type = "t2.nano"
-  key_name = aws_key_pair.key.key_name
-  
-  vpc_security_group_ids = [aws_security_group.default.id]
-  subnet_id = aws_subnet.public[0].id
+  instance_type = var.private ? "t2.nano" : "m5.large"
+  key_name      = aws_key_pair.key.key_name
+
+  vpc_security_group_ids      = [aws_security_group.default.id]
+  subnet_id                   = aws_subnet.public[0].id
   associate_public_ip_address = true
-  user_data = templatefile("${path.module}/bootstrap.tmpl", {})
+  user_data                   = templatefile("${path.module}/bootstrap.tmpl", {})
 
   tags = {
     Name = random_id.key.hex
@@ -35,6 +35,7 @@ resource "aws_instance" "public" {
 }
 
 resource "aws_security_group" "personal" {
+  count       = var.private ? 1 : 0
   name        = "${random_id.key.hex}-personal-sg"
   description = "Used in the terraform"
   vpc_id      = aws_vpc.default.id
@@ -76,14 +77,15 @@ resource "aws_security_group" "personal" {
 }
 
 resource "aws_instance" "private" {
+  count         = var.private ? 1 : 0
   ami           = data.aws_ami.amazon.id
   instance_type = "t2.nano"
-  key_name = aws_key_pair.key.key_name
+  key_name      = aws_key_pair.key.key_name
 
-  vpc_security_group_ids = [aws_security_group.personal.id]
-  subnet_id = aws_subnet.private[0].id
+  vpc_security_group_ids      = [aws_security_group.personal[count.index].id]
+  subnet_id                   = aws_subnet.private[count.index].id
   associate_public_ip_address = false
-  user_data = templatefile("${path.module}/bootstrap.tmpl", {})
+  user_data                   = templatefile("${path.module}/bootstrap.tmpl", {})
 
   tags = {
     Name = random_id.key.hex
