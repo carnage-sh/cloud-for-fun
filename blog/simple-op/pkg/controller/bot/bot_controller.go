@@ -3,7 +3,7 @@ package bot
 import (
 	"context"
 
-	examplev1alpha1 "github.com/gregoryguillou/cloud-for-fun/blog/simple-op/pkg/apis/example/v1alpha1"
+	examplev1alpha1 "github.com/carnage-sh/cloud-for-fun/blog/simple-op/pkg/apis/example/v1alpha1"
 	corev1 "k8s.io/api/core/v1"
 	"k8s.io/apimachinery/pkg/api/errors"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"

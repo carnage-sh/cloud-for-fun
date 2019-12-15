@@ -1,4 +1,4 @@
-module github.com/gregoryguillou/cloud-for-fun/blog/knative-eventing
+module github.com/carnage-sh/cloud-for-fun/blog/knative-eventing
 
 go 1.12
 

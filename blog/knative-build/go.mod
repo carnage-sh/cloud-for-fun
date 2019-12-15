@@ -1,4 +1,4 @@
-module github.com/gregoryguillou/cloud-for-fun/blog/knative-build
+module github.com/carnage-sh/cloud-for-fun/blog/knative-build
 
 go 1.12
 

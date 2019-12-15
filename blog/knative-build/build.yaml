@@ -5,7 +5,7 @@ metadata:
 spec:
   source:
     git:
-      url: https://github.com/gregoryguillou/cloud-for-fun.git
+      url: https://github.com/carnage-sh/cloud-for-fun.git
       revision: master
     subPath: "blog/knative-build"
   serviceAccountName: builder-sa
