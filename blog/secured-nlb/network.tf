@@ -1,5 +1,5 @@
 resource "aws_vpc" "default" {
-  cidr_block = "10.0.0.0/16"
+  cidr_block           = "10.0.0.0/16"
   enable_dns_hostnames = true
 }
 
@@ -35,6 +35,7 @@ resource "aws_subnet" "public" {
 }
 
 resource "aws_route_table" "public" {
+  count  = 1
   vpc_id = aws_vpc.default.id
 
   route {
@@ -46,30 +47,30 @@ resource "aws_route_table" "public" {
 resource "aws_route_table_association" "public" {
   count          = 1
   subnet_id      = aws_subnet.public[count.index].id
-  route_table_id = aws_route_table.public.id
+  route_table_id = aws_route_table.public[count.index].id
 }
 
 resource "aws_eip" "natgw" {
-  count = 1
+  count = var.private ? 1 : 0
   vpc   = true
 }
 
 resource "aws_nat_gateway" "natgw" {
-  count         = 1
+  count         = var.private ? 1 : 0
   allocation_id = aws_eip.natgw[count.index].id
   subnet_id     = aws_subnet.public[count.index].id
   depends_on    = [aws_internet_gateway.default]
 }
 
 resource "aws_subnet" "private" {
-  count             = 1
+  count             = var.private ? 1 : 0
   vpc_id            = aws_vpc.default.id
   availability_zone = data.aws_availability_zones.az.names[count.index]
   cidr_block        = "10.0.${count.index + 10}.0/24"
 }
 
 resource "aws_route_table" "private" {
-  count  = 1
+  count  = var.private ? 1 : 0
   vpc_id = aws_vpc.default.id
 
   route {
@@ -79,7 +80,7 @@ resource "aws_route_table" "private" {
 }
 
 resource "aws_route_table_association" "private" {
-  count          = 1
+  count          = var.private ? 1 : 0
   subnet_id      = aws_subnet.private[count.index].id
   route_table_id = aws_route_table.private[count.index].id
 }
@@ -94,13 +95,6 @@ resource "aws_security_group" "default" {
     to_port     = 22
     protocol    = "tcp"
     cidr_blocks = ["0.0.0.0/0"]
-  }
-
-  ingress {
-    from_port   = 80
-    to_port     = 80
-    protocol    = "tcp"
-    cidr_blocks = ["10.0.0.0/16"]
   }
 
   egress {
