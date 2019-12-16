@@ -22,7 +22,7 @@ personal_ip = "3.0.0.0"
 
 ```shell
 terraform state show "aws_instance.public"
-terraform state show "aws_instance.private"
+terraform state show "aws_instance.private[0]"
 ```
 
 ## connecting to the private server
@@ -49,9 +49,9 @@ curl localhost
 Assuming you've correctly set the variables, you should be able:
 
 - To figure out the NLB cname with
-  `terraform state show aws_lb.loadbalancer`
+  `terraform state show "aws_lb.loadbalancer[0]"`
 - To figure out the EIP you've attached to the NLB with 
-  `terraform state show aws_eip.loadbalancer`
+  `terraform state show "aws_eip.loadbalancer[0]"`
 
 You should be able to access the http (via curl) as well as the ssh protocol
 both with the alias and the IP for the NLB. If you change the value in
