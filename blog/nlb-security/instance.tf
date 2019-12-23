@@ -27,11 +27,18 @@ resource "aws_instance" "public" {
   vpc_security_group_ids      = [aws_security_group.default.id]
   subnet_id                   = aws_subnet.public[0].id
   associate_public_ip_address = true
-  user_data                   = templatefile("${path.module}/bootstrap.tmpl", {})
+  user_data                   = (var.private ? 
+                                  templatefile("${path.module}/bootstrap.tmpl", {}) :
+                                  templatefile("${path.module}/bootstrap-w-docker.tmpl",
+                                      { kind_version = "0.6.1", kubectl_version = "1.17.0" }))
 
   tags = {
     Name = random_id.key.hex
   }
+}
+
+output "ssh_access" {
+  value = "ssh ec2-user@${aws_instance.public.public_ip}"
 }
 
 resource "aws_security_group" "personal" {
