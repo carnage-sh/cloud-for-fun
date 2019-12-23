@@ -1,0 +1,17 @@
+#!/bin/bash
+
+set -e
+
+yum -y install docker git curl
+systemctl start docker
+usermod -a -G docker ec2-user
+
+cd /usr/local/bin
+curl -Lo kind \
+  https://github.com/kubernetes-sigs/kind/releases/download/v${kind_version}/kind-linux-amd64
+curl -Lo kubectl \
+  https://storage.googleapis.com/kubernetes-release/release/v${kubectl_version}/bin/linux/amd64/kubectl
+chmod +x kubectl kind
+
+echo "Installation succeeded" >/tmp/install.txt
+
