@@ -13,5 +13,14 @@ curl -Lo kubectl \
   https://storage.googleapis.com/kubernetes-release/release/v${kubectl_version}/bin/linux/amd64/kubectl
 chmod +x kubectl kind
 
+cd /usr/local
+curl -LO https://dl.google.com/go/go${golang_version}.linux-amd64.tar.gz
+tar -xvf go${golang_version}.linux-amd64.tar.gz
+
+cat <<EOF >/etc/profile.d/go.sh
+export PATH=/usr/local/go/bin:\$PATH
+export GOROOT=/usr/local/go
+EOF
+
 echo "Installation succeeded" >/tmp/install.txt
 
