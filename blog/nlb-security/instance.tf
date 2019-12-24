@@ -27,10 +27,17 @@ resource "aws_instance" "public" {
   vpc_security_group_ids      = [aws_security_group.default.id]
   subnet_id                   = aws_subnet.public[0].id
   associate_public_ip_address = true
+
+  root_block_device {
+    delete_on_termination = true
+    volume_size = var.private ? 8 : 50
+    volume_type = "gp2"
+  }
+
   user_data                   = (var.private ? 
                                   templatefile("${path.module}/bootstrap.tmpl", {}) :
                                   templatefile("${path.module}/bootstrap-w-docker.tmpl",
-                                      { kind_version = "0.6.1", kubectl_version = "1.17.0" }))
+                                      { kind_version = "0.6.1", kubectl_version = "1.17.0", golang_version = "1.13.5" }))
 
   tags = {
     Name = random_id.key.hex
