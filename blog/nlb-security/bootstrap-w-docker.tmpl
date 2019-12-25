@@ -18,8 +18,10 @@ curl -LO https://dl.google.com/go/go${golang_version}.linux-amd64.tar.gz
 tar -xvf go${golang_version}.linux-amd64.tar.gz
 
 cat <<EOF >/etc/profile.d/go.sh
-export PATH=/usr/local/go/bin:\$PATH
 export GOROOT=/usr/local/go
+export GOPATH=\$HOME/go
+mkdir -p \$GOPATH
+export PATH=\$GOPATH/bin:\$GOROOT/bin:\$PATH
 EOF
 
 echo "Installation succeeded" >/tmp/install.txt
