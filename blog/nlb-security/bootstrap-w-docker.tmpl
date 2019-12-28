@@ -11,7 +11,9 @@ curl -Lo kind \
   https://github.com/kubernetes-sigs/kind/releases/download/v${kind_version}/kind-linux-amd64
 curl -Lo kubectl \
   https://storage.googleapis.com/kubernetes-release/release/v${kubectl_version}/bin/linux/amd64/kubectl
-chmod +x kubectl kind
+curl -Lo docker-compose \
+   https://github.com/docker/compose/releases/download/${compose_version}/docker-compose-$(uname -s)-$(uname -m)
+chmod +x kubectl kind docker-compose
 
 cd /usr/local
 curl -LO https://dl.google.com/go/go${golang_version}.linux-amd64.tar.gz
