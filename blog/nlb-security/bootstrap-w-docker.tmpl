@@ -13,6 +13,9 @@ curl -Lo kubectl \
   https://storage.googleapis.com/kubernetes-release/release/v${kubectl_version}/bin/linux/amd64/kubectl
 curl -Lo docker-compose \
    https://github.com/docker/compose/releases/download/${compose_version}/docker-compose-$(uname -s)-$(uname -m)
+curl -L https://github.com/kubernetes-sigs/kustomize/releases/download/kustomize/v${kustomize_version}/kustomize_v${kustomize_version}_linux_amd64.tar.gz \
+   | tar -zxvf - -C .
+
 chmod +x kubectl kind docker-compose
 
 cd /usr/local
