@@ -37,7 +37,7 @@ resource "aws_instance" "public" {
   user_data                   = (var.private ? 
                                   templatefile("${path.module}/bootstrap.tmpl", {}) :
                                   templatefile("${path.module}/bootstrap-w-docker.tmpl",
-                                      { kind_version = "0.6.1", kubectl_version = "1.17.0", golang_version = "1.13.5", compose_version = "1.25.0" , kustomize_version = "3.5.3"}))
+                                      { kind_version = "0.7.0", kubectl_version = "1.17.1", golang_version = "1.13.6", compose_version = "1.25.1" , kustomize_version = "3.5.4"}))
 
   tags = {
     Name = random_id.key.hex
