@@ -12,7 +12,7 @@
     "@godaddy/terminus": "^4.1.0",
     "express": "^4.16.4",
     "ip": "^1.1.5",
-    "minimist": "^1.2.0",
+    "minimist": "^1.2.6",
     "moment": "^2.24.0",
     "morgan": "^1.9.1",
     "request": "^2.88.0"
