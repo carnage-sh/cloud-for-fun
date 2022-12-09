@@ -10,7 +10,7 @@
   "license": "SEE LICENSE IN LICENSE",
   "dependencies": {
     "body-parser": "^1.18.3",
-    "express": "^4.16.4",
+    "express": "^4.17.3",
     "on-finished": "^2.3.0",
     "payload-validator": "^1.0.4",
     "prom-client": "^11.2.1",
